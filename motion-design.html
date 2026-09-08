@@ -283,79 +283,6 @@ html{
   width:100%;
 }
 .site-nav__link[aria-current="page"]::after{ width:100%; }
-.site-nav__item{ position:relative; display:flex; align-items:center; }
-/* Left-to-right clip-path wipe (matches the underline's fill direction),
-   plus a staggered per-link reveal — same technique behind current
-   award-nominated nav patterns (Awwwards-style menu wipes). */
-.site-nav__dropdown{
-  position:absolute;
-  top:100%;
-  left:0;
-  margin-top:10px;
-  background:var(--color-white);
-  border:var(--border-width) solid var(--border-color);
-  border-radius:var(--radius-sm);
-  box-shadow:0 8px 24px rgba(var(--ink-rgb),0.14);
-  min-width:190px;
-  padding:6px;
-  list-style:none;
-  opacity:0;
-  visibility:hidden;
-  clip-path:inset(0 100% 0 0);
-  transition:opacity .1s ease, visibility .45s, clip-path .45s cubic-bezier(.22,1,.36,1);
-  z-index:40;
-}
-.site-nav__item:hover .site-nav__dropdown,
-.site-nav__item:focus-within .site-nav__dropdown{
-  opacity:1;
-  visibility:visible;
-  clip-path:inset(0 0 0 0);
-}
-.site-nav__dropdown-link{
-  display:block;
-  padding:8px 10px;
-  border-radius:4px;
-  font-size:0.82rem;
-  font-weight:500;
-  text-transform:none;
-  letter-spacing:normal;
-  color:var(--color-ink);
-  text-decoration:none;
-  white-space:nowrap;
-  opacity:0;
-  transform:translateX(-8px);
-  transition:opacity .3s ease, transform .3s ease, background-color .15s ease;
-}
-.site-nav__item:hover .site-nav__dropdown-link,
-.site-nav__item:focus-within .site-nav__dropdown-link{
-  opacity:1;
-  transform:translateX(0);
-}
-.site-nav__dropdown li:nth-child(1) .site-nav__dropdown-link{ transition-delay:.08s; }
-.site-nav__dropdown li:nth-child(2) .site-nav__dropdown-link{ transition-delay:.14s; }
-.site-nav__dropdown li:nth-child(3) .site-nav__dropdown-link{ transition-delay:.2s; }
-.site-nav__dropdown-link:hover, .site-nav__dropdown-link:focus-visible{
-  background:rgba(var(--ink-rgb),0.06);
-}
-@media (max-width:900px){
-  .js-ready .site-nav.is-open .site-nav__dropdown{
-    position:static;
-    opacity:1;
-    visibility:visible;
-    clip-path:none;
-    box-shadow:none;
-    border:none;
-    margin:0;
-    padding:0 0 0 var(--space-md);
-    background:transparent;
-  }
-  .js-ready .site-nav.is-open .site-nav__dropdown-link{
-    padding:10px var(--space-md);
-    opacity:1;
-    transform:none;
-    transition-delay:0s;
-  }
-}
 
 /* Hamburger toggle — hidden by default; only shown once JS has added
    .js-ready (no-JS visitors always see the full inline nav) and only
@@ -1023,14 +950,7 @@ h1, h2, h3{ text-wrap:balance; }
       <svg viewBox="0 0 663.11 670.22" aria-hidden="true"><path d="M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z"/><circle cx="115.98" cy="139.73" r="101.54"/></svg>
     </a>
     <nav class="site-nav" id="site-nav" aria-label="Main navigation">
-      <div class="site-nav__item">
-        <a href="legacy/goldbach-kmu.html" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Product & UX/UI Design</a>
-        <ul class="site-nav__dropdown">
-          <li><a href="legacy/goldbach-kmu.html" class="site-nav__dropdown-link">Goldbach KMU</a></li>
-          <li><a href="legacy/dentist-finder.html" class="site-nav__dropdown-link">Dentist Finder</a></li>
-          <li><a href="legacy/hertz-minilease.html" class="site-nav__dropdown-link">Hertz MiniLease</a></li>
-        </ul>
-      </div>
+      <a href="product-ux-design.html" class="site-nav__link">Product & UX/UI Design</a>
       <a href="motion-design.html" class="site-nav__link" aria-current="page">Motion & Interaction Design</a>
       <a href="visual-campaigns.html" class="site-nav__link">Visual Campaigns</a>
       <a href="ai-agents.html" class="site-nav__link">AI Agents</a>
