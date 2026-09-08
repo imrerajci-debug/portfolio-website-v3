@@ -1,0 +1,56 @@
+<svg viewBox="0 0 1600 1000" xmlns="http://www.w3.org/2000/svg">
+            <rect x="40" y="40" width="196" height="34" rx="17" fill="#FCE795"/>
+            <text x="138" y="62" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#5C4432" text-anchor="middle" letter-spacing="0.5">CONCEPT SKETCH</text>
+            <rect x="60" y="100" width="720" height="380" rx="12" fill="#FFFFFF" stroke="#5C4432" stroke-width="2"/>
+            <text x="90" y="145" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5C4432" opacity="0.6" letter-spacing="0.06em">COLOR</text>
+            <circle cx="180" cy="245" r="38" fill="#91D2C0"/><text x="180" y="305" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Mint</text>
+            <circle cx="340" cy="245" r="38" fill="#FCE795"/><text x="340" y="305" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Yellow</text>
+            <circle cx="500" cy="245" r="38" fill="#96C9EC"/><text x="500" y="305" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Sky</text>
+            <circle cx="660" cy="245" r="38" fill="#FED28A"/><text x="660" y="305" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Peach</text>
+            <circle cx="180" cy="380" r="38" fill="#E5BCD9"/><text x="180" y="440" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Blush</text>
+            <circle cx="340" cy="380" r="38" fill="#5C4432"/><text x="340" y="440" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" text-anchor="middle" opacity="0.6">Ink</text>
+            <rect x="820" y="100" width="720" height="380" rx="12" fill="#FFFFFF" stroke="#5C4432" stroke-width="2"/>
+            <text x="850" y="145" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5C4432" opacity="0.6" letter-spacing="0.06em">TYPE</text>
+            <text x="850" y="230" font-family="Arial, Helvetica, sans-serif" font-size="60" font-weight="700" fill="#5C4432">Aa</text>
+            <text x="1000" y="220" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#5C4432" opacity="0.5">Display / Headings</text>
+            <text x="850" y="300" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#5C4432">Aa</text>
+            <text x="1000" y="290" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#5C4432" opacity="0.5">Section titles</text>
+            <text x="850" y="358" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="600" fill="#5C4432">Aa</text>
+            <text x="1000" y="352" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#5C4432" opacity="0.5">Body copy</text>
+            <text x="850" y="405" font-family="Arial, Helvetica, sans-serif" font-size="18" fill="#5C4432">Aa</text>
+            <text x="1000" y="400" font-family="Arial, Helvetica, sans-serif" font-size="15" fill="#5C4432" opacity="0.5">Small / eyebrow</text>
+            <line x1="850" y1="430" x2="1510" y2="430" stroke="#5C4432" stroke-width="1" opacity="0.2"/>
+            <rect x="60" y="510" width="720" height="330" rx="12" fill="#FFFFFF" stroke="#5C4432" stroke-width="2"/>
+            <text x="90" y="555" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5C4432" opacity="0.6" letter-spacing="0.06em">SPACING</text>
+            <rect x="90" y="585" width="24" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="130" y="598" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">4px</text>
+            <rect x="90" y="615" width="40" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="146" y="628" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">8px</text>
+            <rect x="90" y="645" width="60" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="166" y="658" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">16px</text>
+            <rect x="90" y="675" width="90" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="196" y="688" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">24px</text>
+            <rect x="90" y="705" width="150" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="256" y="718" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">40px</text>
+            <rect x="90" y="735" width="240" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="346" y="748" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">64px</text>
+            <rect x="90" y="765" width="380" height="16" rx="3" fill="#5C4432" opacity="0.6"/><text x="486" y="778" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.5">96px</text>
+            <rect x="820" y="510" width="720" height="330" rx="12" fill="#FFFFFF" stroke="#5C4432" stroke-width="2"/>
+            <text x="850" y="555" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" fill="#5C4432" opacity="0.6" letter-spacing="0.06em">ICONS</text>
+            <rect x="850" y="585" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><circle cx="885" cy="620" r="14" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="940" y="585" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><path d="M962,635 L975,605 L988,635" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="1030" y="585" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><rect x="1050" y="605" width="30" height="30" rx="4" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="1120" y="585" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><line x1="1140" y1="640" x2="1170" y2="600" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="850" y="675" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><circle cx="885" cy="695" r="10" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/><line x1="865" y1="725" x2="905" y2="725" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="940" y="675" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><polygon points="975,690 990,730 960,730" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="1030" y="675" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><line x1="1050" y1="695" x2="1080" y2="695" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/><line x1="1050" y1="715" x2="1080" y2="715" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="1120" y="675" width="70" height="70" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5"/><circle cx="1145" cy="700" r="8" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/><circle cx="1170" cy="720" r="8" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.6"/>
+            <rect x="60" y="870" width="1480" height="90" rx="10" fill="none" stroke="#5C4432" stroke-width="1.5" opacity="0.35"/>
+            <rect x="80" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="205" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="330" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="455" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="580" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="705" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="830" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="955" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="1080" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="1205" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="1330" y="885" width="105" height="60" fill="#FCE795" opacity="0.3"/>
+            <rect x="1455" y="885" width="85" height="60" fill="#FCE795" opacity="0.3"/>
+            <text x="80" y="875" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700" fill="#5C4432" opacity="0.5">12-COLUMN GRID</text>
+          <rect x="0" y="924" width="1600" height="76" fill="#FFFFFF" opacity="0.94"/><text x="800" y="970" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" fill="#5C4432" opacity="0.8" text-anchor="middle">Illustration only &#8212; original coming soon</text></svg>

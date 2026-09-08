@@ -1,0 +1,21 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/contact"
+  to = "/.netlify/functions/contact"
+  status = 200
+  force = true
+
+# Rate limiting for the contact endpoint.
+# Netlify's native Rate Limiting (Team/Enterprise) can be configured here once
+# available on your plan, e.g.:
+#
+# [[edge_functions]]
+#   path = "/api/contact"
+#   function = "rate-limit"
+#
+# On the free tier, use the optional Upstash Redis integration documented in
+# README.md ("Rate limiting") instead — the function already supports it via
+# UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN.

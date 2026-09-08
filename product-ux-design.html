@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#91D2C0">
+<meta name="description" content="Product &amp; UX/UI design case studies by Imre Rajci — vehicle subscriptions, patient search, and B2B advertising platforms.">
+<meta property="og:title" content="Product & UX/UI Design | Imre Rajci">
+<meta property="og:description" content="Case studies on vehicle subscriptions, patient search, and B2B advertising platforms — the structure, the screens, and the reasoning behind each decision.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2391D2C0'/%3E%3Ctext x='50' y='69' font-family='Arial, sans-serif' font-weight='700' font-size='58' text-anchor='middle' fill='%235C4432'%3EIR%3C/text%3E%3C/svg%3E">
+<title>Product & UX/UI Design | Imre Rajci</title>
+<style>
+/* QUICK DESIGN EDITS: CHANGE THESE VARIABLES ONLY */
+html{
+  overflow-y:scroll;
+  scrollbar-gutter:stable;
+}
+*, *::before, *::after{
+  box-sizing:border-box;
+}
+:root{
+  /* ---- Brand primitives ---- */
+  --brand-brown-500:#5C4432;
+  --brand-brown-600:#493526;
+  --brand-brown-700:#3F2D20;
+  --brand-brown-400:#6A5140;
+
+  --brand-mint:#91D2C0;
+  --brand-yellow:#FCE795;
+  --brand-peach:#FED28A;
+  --brand-sky:#96C9EC;
+  --brand-blush:#E5BCD9;
+
+  --brand-success:#256B57;
+  --brand-error:#A13D32;
+
+  /* ---- Semantic color roles — components should read these, not the
+     primitives above or raw hex values. ---- */
+  --color-canvas:#FFFFFF;
+  --color-surface-warm:#FFF8F0;
+  --color-mint:var(--brand-mint);
+  --color-ink:var(--brand-brown-500);
+  --color-ink-hover:var(--brand-brown-600);
+  --color-ink-active:var(--brand-brown-700);
+  --color-ink-muted:var(--brand-brown-400);
+  --color-ink-fixed:var(--brand-brown-500);
+  --ink-rgb:92,68,50;
+  --color-black:#000000;
+  --color-white:#FFFFFF;
+  --color-yellow:var(--brand-yellow);
+  --color-blue:var(--brand-sky);
+  --color-pink:var(--brand-blush);
+  --color-peach:var(--brand-peach);
+  --color-sky:var(--brand-sky);
+  --color-blush:var(--brand-blush);
+  --color-success:var(--brand-success);
+  --color-error:var(--brand-error);
+  --color-surface:var(--color-surface-warm);
+
+  /* ---- Typography ---- */
+  --font-display:"Rubik", Arial, Helvetica, sans-serif;
+  --font-body:"Rubik", Arial, Helvetica, sans-serif;
+  --text-display:clamp(3rem, 6vw, 5.5rem);
+  --text-h1:clamp(2.5rem, 5vw, 4.5rem);
+  --text-h2:clamp(2rem, 4vw, 3.5rem);
+  --text-h3:clamp(1.5rem, 2.5vw, 2rem);
+  --text-body-lg:1.125rem;
+  --text-body:1rem;
+  --text-small:0.875rem;
+  --text-eyebrow:0.75rem;
+
+  /* ---- Layout ---- */
+  --content-width:980px;
+  --container-wide:1280px;
+  --container-default:980px;
+  --container-reading:680px;
+  --reading-width:680px;
+  --page-gutter:clamp(20px, 5vw, 64px);
+  --section-space:clamp(72px, 11vw, 140px);
+  --content-max:1400px;
+  --grid-gap:clamp(16px, 2vw, 32px);
+  --nav-height:84px;
+  --motion-ease:cubic-bezier(.16, 1, .3, 1);
+
+  /* ---- Spacing — the existing t-shirt scale stays the source of truth
+     (already a clean 4px rhythm); numeric aliases added for spec
+     compatibility so either naming works in new/refactored components. ---- */
+  --space-3xs:4px;
+  --space-2xs:8px;
+  --space-xs:12px;
+  --space-sm:16px;
+  --space-md:24px;
+  --space-lg:40px;
+  --space-xl:64px;
+  --space-2xl:96px;
+  --space-3xl:128px;
+  --space-1:var(--space-3xs);
+  --space-2:var(--space-2xs);
+  --space-3:var(--space-xs);
+  --space-4:var(--space-sm);
+  --space-6:var(--space-md);
+  --space-8:32px;
+  --space-12:var(--space-lg);
+  --space-16:var(--space-xl);
+  --space-24:var(--space-2xl);
+  --space-32:var(--space-3xl);
+  --section-space-sm:clamp(3rem, 7vw, 5rem);
+  --section-space-md:clamp(4rem, 9vw, 7rem);
+  --section-space-lg:clamp(5rem, 12vw, 9rem);
+
+  /* ---- Borders & elevation ---- */
+  --border-color:rgba(var(--ink-rgb),0.22);
+  --border-color-strong:rgba(var(--ink-rgb),0.38);
+  --shadow-color:rgba(var(--ink-rgb),0.12);
+  --border-width:1px;
+
+  /* ---- Radius ---- */
+  --radius-sm:8px;
+  --radius-md:8px;
+  --radius-control:14px;
+  --radius-card:24px;
+  --radius-section:32px;
+  --radius-pill:999px;
+
+  /* ---- Motion ---- */
+  --duration-fast:120ms;
+  --duration-normal:180ms;
+  --duration-slow:280ms;
+  --ease-standard:cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter:cubic-bezier(0.22, 1, 0.36, 1);
+
+  --image-ratio:16 / 10;
+
+  --bp-tablet:768px;
+  --bp-desktop:1200px;
+}
+
+/* Dark mode — soft near-black background with off-white text (never pure black/white,
+   per current dark-mode UX guidance), same layout and spacing, only surface tones shift.
+   Accent colors (mint/yellow/blue/pink) are left as-is: they read well on dark too. */
+@media (prefers-color-scheme: dark){
+  :root{
+    --color-white:#1E1B16;
+    --color-ink:#F2EDE4;
+    --ink-rgb:242,237,228;
+    --color-surface:#28241D;
+    --border-color:rgba(242,237,228,0.16);
+  }
+}
+
+.site, .site *, .site *::before, .site *::after{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+.site{
+  font-family:var(--font-body);
+  color:var(--color-ink);
+  background:var(--color-white);
+  line-height:1.55;
+  font-size:clamp(1rem, 0.9rem + 0.2vw, 1.08rem);
+  -webkit-font-smoothing:antialiased;
+  overflow-wrap:break-word;
+}
+.site img{ max-width:100%; display:block; }
+.site a{ color:inherit; }
+
+/* Site header */
+.site-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  background:var(--color-mint);
+  border-bottom:1px solid transparent;
+  transition:background-color .3s var(--motion-ease), backdrop-filter .3s var(--motion-ease), border-color .3s var(--motion-ease);
+}
+.site-header.is-scrolled{
+  background-color:color-mix(in srgb, var(--color-mint) 92%, transparent);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom-color:var(--border-color);
+}
+.site-header__inner{
+  padding:20px clamp(24px, 4vw, 56px);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--space-md);
+  flex-wrap:wrap;
+}
+.site-header__logo{ display:flex; align-items:center; width:44px; height:44px; color:var(--color-ink-fixed); flex-shrink:0; }
+.site-header__logo svg{ width:100%; height:100%; fill:currentColor; display:block; }
+.site-nav{ display:flex; gap:var(--space-md) var(--space-lg); flex-wrap:wrap; }
+.site-nav__link{
+  position:relative;
+  font-family:var(--font-display);
+  font-size:0.85rem;
+  font-weight:500;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--color-ink-fixed);
+  text-decoration:none;
+  padding:8px 0;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.site-nav__link::after{
+  content:"";
+  position:absolute;
+  left:0;
+  bottom:0;
+  height:1px;
+  width:0%;
+  background:var(--color-ink-fixed);
+  transition:width .25s ease;
+}
+.site-nav__link:hover::after, .site-nav__link:focus-visible::after{ width:100%; }
+.site-nav__link[aria-current="page"]::after{ width:100%; }
+.site-nav__item{ position:relative; display:flex; align-items:center; }
+/* Left-to-right clip-path wipe (matches the underline's fill direction),
+   plus a staggered per-link reveal — same technique behind current
+   award-nominated nav patterns (Awwwards-style menu wipes). */
+.site-nav__dropdown{
+  position:absolute;
+  top:100%;
+  left:0;
+  margin-top:10px;
+  background:var(--color-white);
+  border:var(--border-width) solid var(--border-color);
+  border-radius:var(--radius-sm);
+  box-shadow:0 8px 24px rgba(var(--ink-rgb),0.14);
+  min-width:190px;
+  padding:6px;
+  list-style:none;
+  opacity:0;
+  visibility:hidden;
+  clip-path:inset(0 100% 0 0);
+  transition:opacity .1s ease, visibility .45s, clip-path .45s cubic-bezier(.22,1,.36,1);
+  z-index:40;
+}
+.site-nav__item:hover .site-nav__dropdown,
+.site-nav__item:focus-within .site-nav__dropdown{
+  opacity:1;
+  visibility:visible;
+  clip-path:inset(0 0 0 0);
+}
+.site-nav__dropdown-link{
+  display:block;
+  padding:8px 10px;
+  border-radius:4px;
+  font-size:0.82rem;
+  font-weight:500;
+  text-transform:none;
+  letter-spacing:normal;
+  color:var(--color-ink);
+  text-decoration:none;
+  white-space:nowrap;
+  opacity:0;
+  transform:translateX(-8px);
+  transition:opacity .3s ease, transform .3s ease, background-color .15s ease;
+}
+.site-nav__item:hover .site-nav__dropdown-link,
+.site-nav__item:focus-within .site-nav__dropdown-link{
+  opacity:1;
+  transform:translateX(0);
+}
+.site-nav__dropdown li:nth-child(1) .site-nav__dropdown-link{ transition-delay:.08s; }
+.site-nav__dropdown li:nth-child(2) .site-nav__dropdown-link{ transition-delay:.14s; }
+.site-nav__dropdown li:nth-child(3) .site-nav__dropdown-link{ transition-delay:.2s; }
+.site-nav__dropdown-link:hover, .site-nav__dropdown-link:focus-visible{
+  background:rgba(var(--ink-rgb),0.06);
+}
+@media (max-width:900px){
+  .js-ready .site-nav.is-open .site-nav__dropdown{
+    position:static;
+    opacity:1;
+    visibility:visible;
+    clip-path:none;
+    box-shadow:none;
+    border:none;
+    margin:0;
+    padding:0 0 0 var(--space-md);
+    background:transparent;
+  }
+  .js-ready .site-nav.is-open .site-nav__dropdown-link{
+    padding:10px var(--space-md);
+    opacity:1;
+    transform:none;
+    transition-delay:0s;
+  }
+}
+
+/* Hamburger toggle — hidden by default; only shown once JS has added
+   .js-ready (no-JS visitors always see the full inline nav) and only
+   below the collapse breakpoint. */
+.site-nav__toggle{
+  display:none;
+  align-items:center;
+  justify-content:center;
+  width:36px;
+  height:36px;
+  padding:0;
+  background:none;
+  border:none;
+  cursor:pointer;
+  flex-shrink:0;
+}
+.site-nav__toggle-bars{ position:relative; width:20px; height:14px; }
+.site-nav__toggle-bars span{
+  position:absolute;
+  left:0;
+  width:100%;
+  height:2px;
+  background:var(--color-ink-fixed);
+  border-radius:1px;
+  transition:transform .25s ease, opacity .2s ease, top .25s ease;
+}
+.site-nav__toggle-bars span:nth-child(1){ top:0; }
+.site-nav__toggle-bars span:nth-child(2){ top:6px; }
+.site-nav__toggle-bars span:nth-child(3){ top:12px; }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars span:nth-child(1){ top:6px; transform:rotate(45deg); }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars span:nth-child(2){ opacity:0; }
+.site-nav__toggle[aria-expanded="true"] .site-nav__toggle-bars span:nth-child(3){ top:6px; transform:rotate(-45deg); }
+
+@media (max-width:900px){
+  .js-ready .site-nav__toggle{ display:flex; }
+  .site-header__inner{ position:relative; }
+  .js-ready .site-nav{ display:none; }
+  .js-ready .site-nav.is-open{
+    display:flex;
+    position:absolute;
+    top:100%;
+    left:0;
+    right:0;
+    flex-direction:column;
+    gap:0;
+    background:var(--color-mint);
+    border-bottom:var(--border-width) solid rgba(var(--ink-rgb),0.15);
+    z-index:20;
+  }
+  .js-ready .site-nav.is-open .site-nav__link{
+    padding:var(--space-sm) var(--space-md);
+    width:100%;
+    border-bottom:none;
+  }
+  .js-ready .site-nav.is-open .site-nav__link[aria-current="page"]{
+    background:rgba(var(--ink-rgb),0.08);
+  }
+}
+
+/* Site footer */
+.site-footer{ border-top:var(--border-width) solid var(--border-color); margin-top:var(--space-2xl); }
+.site-footer__inner{
+  max-width:var(--content-width);
+  margin:0 auto;
+  padding:var(--space-lg) var(--space-md);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:var(--space-md);
+  flex-wrap:wrap;
+  font-size:0.85rem;
+  color:rgba(var(--ink-rgb),0.6);
+}
+.site-footer nav{ display:flex; gap:var(--space-md); flex-wrap:wrap; }
+.site-footer a{ text-decoration:none; color:rgba(var(--ink-rgb),0.6); }
+.site-footer a:hover, .site-footer a:focus-visible{ color:var(--color-ink); }
+
+@media (max-width:480px){
+  .site-header__inner{ padding:var(--space-sm); }
+  .site-nav{ gap:var(--space-sm) var(--space-md); }
+  .site-nav__link{ font-size:0.76rem; }
+}
+
+/* Layout */
+.site__inner{
+  max-width:var(--content-max);
+  margin:0 auto;
+  padding:0 var(--page-gutter);
+}
+@media (max-width:768px){
+  .site__inner{ padding:0 var(--space-sm); }
+}
+
+/* Hero */
+.hero-home{
+  position:relative;
+  margin-top:var(--header-h, 84px);
+  padding:var(--space-2xl) 0 var(--space-xl);
+}
+.hero-home__text{
+  position:relative;
+  z-index:2;
+  max-width:620px;
+}
+.hero-home__portrait{
+  position:absolute;
+  right:30px;
+  bottom:0;
+  z-index:1;
+  width:clamp(220px, 18vw + 140px, 340px);
+  aspect-ratio:1200 / 1578;
+  pointer-events:none;
+}
+.hero-home__portrait-layer{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  display:block;
+  pointer-events:none;
+  user-select:none;
+}
+.hero-home__portrait-layer--eyes{ will-change:transform; }
+@media (max-width:900px){
+  .hero-home__text{ max-width:none; }
+  .hero-home__portrait{ position:relative; right:auto; bottom:auto; width:200px; margin:var(--space-lg) auto 0; }
+}
+.hero-home__eyebrow{
+  font-size:0.8rem;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  color:var(--color-ink);
+  opacity:0.6;
+  margin-bottom:var(--space-sm);
+  position:relative;
+  z-index:1;
+  will-change:transform;
+}
+.hero-home__title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(2.6rem, 1.8rem + 4.5vw, 5rem);
+  line-height:1.02;
+  margin-bottom:var(--space-md);
+  position:relative;
+  z-index:1;
+  will-change:transform;
+}
+.hero-home__summary{
+  font-size:clamp(1.05rem, 1rem + 0.5vw, 1.35rem);
+  max-width:var(--reading-width);
+  color:rgba(var(--ink-rgb),0.85);
+  margin-bottom:var(--space-lg);
+  position:relative;
+  z-index:1;
+  will-change:transform;
+}
+.hero-home__tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:var(--space-2xs);
+}
+.hero-home__tag{
+  font-size:0.8rem;
+  font-weight:600;
+  padding:6px 14px;
+  border-radius:999px;
+  border:var(--border-width) solid var(--border-color);
+  color:var(--color-ink);
+  transition:background-color .2s ease, transform .2s ease;
+}
+.hero-home__tag:nth-child(1){ background:color-mix(in srgb, var(--color-mint) 30%, white); border-color:transparent; }
+.hero-home__tag:nth-child(2){ background:color-mix(in srgb, var(--color-yellow) 30%, white); border-color:transparent; }
+.hero-home__tag:nth-child(3){ background:color-mix(in srgb, var(--color-blue) 30%, white); border-color:transparent; }
+.hero-home__tag:nth-child(4){ background:color-mix(in srgb, var(--color-pink) 30%, white); border-color:transparent; }
+.hero-home__tag:nth-child(1):hover{ background:color-mix(in srgb, var(--color-mint) 60%, white); }
+.hero-home__tag:nth-child(2):hover{ background:color-mix(in srgb, var(--color-yellow) 60%, white); }
+.hero-home__tag:nth-child(3):hover{ background:color-mix(in srgb, var(--color-blue) 60%, white); }
+.hero-home__tag:nth-child(4):hover{ background:color-mix(in srgb, var(--color-pink) 60%, white); }
+@media (hover:hover){
+  .hero-home__tag:hover{ transform:translateY(-2px); }
+}
+
+/* Media placeholder (shared with case studies) */
+.media-frame{
+  width:100%;
+  background:var(--color-surface);
+  border:var(--border-width) solid var(--border-color);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  position:relative;
+  transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+.showcase:hover .media-frame{
+  border-color:var(--color-mint);
+  box-shadow:0 10px 24px rgba(var(--ink-rgb),0.08);
+}
+.media-sketch{
+  width:100%;
+  aspect-ratio:var(--image-ratio);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:var(--space-sm);
+}
+.media-sketch__icon{
+  position:relative;
+  width:52px;
+  height:52px;
+  border:1.5px dashed var(--border-color);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  background:var(--color-white);
+}
+.media-sketch__icon::before{
+  content:"";
+  position:absolute;
+  top:8px;
+  right:8px;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--color-yellow);
+}
+.media-sketch__icon::after{
+  content:"";
+  position:absolute;
+  bottom:-4px;
+  left:-6px;
+  width:0;
+  height:0;
+  border-left:22px solid transparent;
+  border-right:10px solid transparent;
+  border-bottom:18px solid var(--color-mint);
+}
+.media-sketch__label{
+  font-size:0.82rem;
+  font-weight:600;
+  color:rgba(var(--ink-rgb),0.5);
+  letter-spacing:0.02em;
+}
+
+/* Project showcase — gallery style, alternating */
+.showcases{
+  padding:var(--space-xl) 0 var(--space-2xl);
+  border-top:var(--border-width) solid var(--border-color);
+  display:flex;
+  flex-direction:column;
+  gap:var(--space-2xl);
+}
+.showcase{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--space-xl);
+  align-items:center;
+  text-decoration:none;
+  color:var(--color-ink);
+}
+.showcase:nth-child(even) .showcase__media{ order:2; }
+.showcase:nth-child(even) .showcase__body{ order:1; }
+@media (max-width:800px){
+  .showcase{ grid-template-columns:1fr; gap:var(--space-md); }
+  .showcase:nth-child(even) .showcase__media,
+  .showcase:nth-child(even) .showcase__body{ order:initial; }
+}
+.showcase__number{
+  display:block;
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:0.85rem;
+  color:var(--color-mint);
+  margin-bottom:var(--space-sm);
+}
+.showcase__eyebrow{
+  display:block;
+  font-size:0.78rem;
+  text-transform:uppercase;
+  letter-spacing:0.06em;
+  color:rgba(var(--ink-rgb),0.55);
+  margin-bottom:var(--space-2xs);
+}
+.showcase__title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:clamp(1.6rem, 1.2rem + 1.6vw, 2.3rem);
+  margin-bottom:var(--space-sm);
+}
+.showcase__summary{
+  font-size:0.98rem;
+  color:rgba(var(--ink-rgb),0.8);
+  max-width:44ch;
+  margin-bottom:var(--space-sm);
+}
+.showcase__meta{
+  font-size:0.85rem;
+  color:rgba(var(--ink-rgb),0.55);
+  margin-bottom:var(--space-md);
+}
+.showcase__meta strong{ color:var(--color-ink); font-weight:600; }
+.showcase__link{
+  display:inline-flex;
+  align-items:center;
+  gap:var(--space-2xs);
+  font-weight:600;
+  font-size:0.95rem;
+  color:var(--color-ink);
+  text-decoration:none;
+  border-bottom:2px solid var(--color-mint);
+  padding-bottom:2px;
+}
+.showcase__arrow{ display:inline-block; transition:transform .2s ease; }
+.showcase:hover .showcase__arrow,
+.showcase:focus-visible .showcase__arrow{ transform:translateX(5px); }
+
+/* Scroll-reveal — progressive enhancement only. Without JS, .js-ready is never
+   added, so every showcase stays fully visible by default. */
+.js-ready .showcase{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.js-ready .showcase.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.site a:focus-visible, .site *:focus-visible{
+  outline:3px solid var(--color-ink);
+  outline-offset:2px;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .site *{ animation:none !important; transition:none !important; }
+  .js-ready .showcase{ opacity:1 !important; transform:none !important; }
+}
+
+.skip-link{
+  position:absolute;
+  left:-9999px;
+  top:0;
+  background:var(--color-mint);
+  color:var(--color-ink);
+  padding:10px 16px;
+  z-index:100;
+  font-weight:700;
+  text-decoration:none;
+  border-radius:0 0 6px 0;
+}
+.skip-link:focus{ left:0; }
+
+/* ============================================
+   Modern UX / product design additions (2025-2026)
+   ============================================ */
+
+/* Cross-document View Transitions: a native animated hand-off when
+   navigating into a case study. Pure progressive enhancement —
+   unsupported browsers ignore the at-rule and navigate normally. */
+@view-transition {
+  navigation: auto;
+}
+
+/* Balanced heading wrap avoids orphan words on large display type. */
+h1, h2, h3{ text-wrap:balance; }
+
+/* Container queries: the sketch icon inside a showcase card should size
+   off the card's own box, not the viewport — the same media column can
+   be narrow (mobile, stacked) or wide (desktop, two-column) independent
+   of overall page width. */
+.showcase__media{ container-type:inline-size; container-name:showcase-media; }
+@container showcase-media (max-width: 320px){
+  .media-sketch__icon{ width:40px; height:40px; }
+  .media-sketch__label{ font-size:0.76rem; }
+}
+
+/* Logical properties: block/inline padding instead of top/right/bottom/left
+   keeps the layout correct if the page is ever read in an RTL language. */
+.site-nav__link{ padding-block:8px; padding-inline:0; }
+
+/* :has() lets the footer react to keyboard focus landing on one of its
+   links, without extra JS or a focus-tracking class. */
+.site-footer:has(a:focus-visible){ border-top-color:var(--color-mint); }
+
+/* Higher-contrast mode: reinforce borders and focus rings for users who
+   have asked the OS for more contrast, rather than relying on color alone. */
+@media (prefers-contrast: more){
+  :root{ --border-color:var(--color-ink); }
+  a:focus-visible, .site-nav__link:focus-visible{ outline:3px solid var(--color-ink); outline-offset:2px; }
+}
+
+/* Print stylesheet. */
+@media print{
+  .site-header, .site-footer, .skip-link{ display:none; }
+  a[href]:not([href^="#"])::after{ content:" (" attr(href) ")"; font-size:0.8em; font-weight:400; }
+  body{ background:#fff; color:#000; }
+}
+.brand-strip{
+  height:6px;
+  width:100%;
+  background:linear-gradient(90deg, var(--color-yellow), var(--color-mint), var(--color-blue), var(--color-pink));
+  background-size:200% 100%;
+  animation:brand-strip-flow 18s linear infinite;
+}
+@keyframes brand-strip-flow{
+  0%{ background-position:0% 0; }
+  100%{ background-position:-100% 0; }
+}
+@media (prefers-reduced-motion: reduce){
+  .brand-strip{ animation:none; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site">
+
+<header class="site-header">
+  <div class="site-header__inner">
+    <a href="index.html" class="site-header__logo" aria-label="Imre Rajci — Home">
+      <svg viewBox="0 0 663.11 670.22" aria-hidden="true"><path d="M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z"/><circle cx="115.98" cy="139.73" r="101.54"/></svg>
+    </a>
+    <nav class="site-nav" id="site-nav" aria-label="Main navigation">
+      <div class="site-nav__item">
+        <a href="legacy/goldbach-kmu.html" class="site-nav__link" aria-haspopup="true" aria-expanded="false">Product & UX/UI Design</a>
+        <ul class="site-nav__dropdown">
+          <li><a href="legacy/goldbach-kmu.html" class="site-nav__dropdown-link">Goldbach KMU</a></li>
+          <li><a href="legacy/dentist-finder.html" class="site-nav__dropdown-link">Dentist Finder</a></li>
+          <li><a href="legacy/hertz-minilease.html" class="site-nav__dropdown-link">Hertz MiniLease</a></li>
+        </ul>
+      </div>
+      <a href="motion-design.html" class="site-nav__link">Motion & Interaction Design</a>
+      <a href="visual-campaigns.html" class="site-nav__link">Visual Campaigns</a>
+      <a href="ai-agents.html" class="site-nav__link">AI Agents</a>
+    </nav>
+    <button class="site-nav__toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Toggle menu">
+      <span class="site-nav__toggle-bars"><span></span><span></span><span></span></span>
+    </button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="site__inner">
+
+  <section class="hero-home">
+    <div class="hero-home__text">
+      <p class="hero-home__eyebrow">Portfolio</p>
+      <h1 class="hero-home__title">Product &amp; UX/UI Design</h1>
+      <p class="hero-home__summary">Case studies on vehicle subscriptions, patient search and B2B advertising platforms — the structure, the screens, and the reasoning behind each decision.</p>
+    </div>
+  </section>
+
+  <div class="showcases">
+
+    <a class="showcase" href="legacy/goldbach-kmu.html">
+      <div class="showcase__media">
+        <div class="media-frame" aria-busy="true">
+          <img class="media-image" src="assets/sketches/home-goldbach.svg" alt="Goldbach KMU Website preview" loading="lazy">
+        </div>
+      </div>
+      <div class="showcase__body">
+        <span class="showcase__number">01</span>
+        <span class="showcase__eyebrow">Goldbach</span>
+        <h2 class="showcase__title">Goldbach KMU Website</h2>
+        <p class="showcase__summary">A redesign of Goldbach's 24-page KMU website section, combined with separate UX feedback work on their B2B booking platform.</p>
+        <p class="showcase__meta"><strong>Role</strong> Multimedia Designer &nbsp;·&nbsp; <strong>Scope</strong> 24-page section</p>
+        <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="showcase" href="legacy/dentist-finder.html">
+      <div class="showcase__media">
+        <div class="media-frame">
+          <img class="media-image" src="assets/homepage/dentist-finder.png" alt="Dentist Finder app preview on a phone mockup" loading="lazy" style="object-fit:cover">
+        </div>
+      </div>
+      <div class="showcase__body">
+        <span class="showcase__number">02</span>
+        <span class="showcase__eyebrow">Self-initiated</span>
+        <h2 class="showcase__title">Dentist Finder</h2>
+        <p class="showcase__summary">A self-initiated product exploring a clearer way to search for and compare dental practices, with its own design system.</p>
+        <p class="showcase__meta"><strong>Role</strong> Product &amp; UX/UI Designer &nbsp;·&nbsp; <strong>Status</strong> Functional online version</p>
+        <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
+      </div>
+    </a>
+
+    <a class="showcase" href="legacy/hertz-minilease.html">
+      <div class="showcase__media">
+        <div class="media-frame">
+          <img class="media-image" src="assets/homepage/hertz-minilease.png" alt="Hertz MiniLease interface on a laptop mockup" loading="lazy" style="object-fit:cover">
+        </div>
+      </div>
+      <div class="showcase__body">
+        <span class="showcase__number">03</span>
+        <span class="showcase__eyebrow">Hertz Switzerland</span>
+        <h2 class="showcase__title">Hertz MiniLease</h2>
+        <p class="showcase__summary">A vehicle subscription platform for Swiss private and business customers, from browsing to a structured sales inquiry.</p>
+        <p class="showcase__meta"><strong>Role</strong> UX/UI Designer</p>
+        <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
+      </div>
+    </a>
+
+
+  </div>
+
+</div>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <span>Imre Rajci — Product &amp; UX Design</span>
+    <nav aria-label="Footer navigation">
+      <a href="legacy/goldbach-kmu.html">Goldbach KMU</a>
+      <a href="legacy/dentist-finder.html">Dentist Finder</a>
+      <a href="legacy/hertz-minilease.html">Hertz MiniLease</a>
+    </nav>
+  </div>
+</footer>
+<div class="brand-strip" aria-hidden="true"></div>
+
+</div>
+
+<script>
+(function(){
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js-ready');
+
+  var siteHeader = document.querySelector('.site-header');
+  if(siteHeader){
+    var setHeaderHeight = function(){
+      document.documentElement.style.setProperty('--header-h', siteHeader.offsetHeight + 'px');
+    };
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+
+    var updateHeaderScrollState = function(){
+      siteHeader.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+    updateHeaderScrollState();
+    window.addEventListener('scroll', updateHeaderScrollState, {passive:true});
+  }
+
+  var navToggle = document.querySelector('.site-nav__toggle');
+  var siteNav = document.getElementById('site-nav');
+  if(navToggle && siteNav){
+    navToggle.addEventListener('click', function(){
+      var open = siteNav.classList.toggle('is-open');
+      navToggle.setAttribute('aria-expanded', String(open));
+    });
+    siteNav.addEventListener('click', function(e){
+      if(e.target.closest('a')){
+        siteNav.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+
+  var showcases = document.querySelectorAll('.showcase');
+
+  if(reduceMotion){
+    showcases.forEach(function(el){ el.classList.add('is-visible'); });
+  } else if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.15});
+    showcases.forEach(function(el){ io.observe(el); });
+  } else {
+    showcases.forEach(function(el){ el.classList.add('is-visible'); });
+  }
+
+  var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var hero = document.querySelector('.hero-home');
+  var eyebrowEl = document.querySelector('.hero-home__eyebrow');
+  var titleEl = document.querySelector('.hero-home__title');
+  var summaryEl = document.querySelector('.hero-home__summary');
+  var eyesEl = document.querySelector('.hero-home__portrait-layer--eyes');
+
+  if(canHover && hero && !reduceMotion){
+    var driftState = {
+      eyebrow: { tx:0, ty:0, cx:0, cy:0, move:4,  ease:0.05  },
+      title:   { tx:0, ty:0, cx:0, cy:0, move:7,  ease:0.045 },
+      summary: { tx:0, ty:0, cx:0, cy:0, move:10, ease:0.035 },
+      eyes:    { tx:0, ty:0, cx:0, cy:0, move:1.3, ease:0.01 }
+    };
+    var rafId = null;
+    function tick(){
+      var stillMoving = false;
+      Object.keys(driftState).forEach(function(key){
+        var s = driftState[key];
+        s.cx += (s.tx - s.cx) * s.ease;
+        s.cy += (s.ty - s.cy) * s.ease;
+        if(Math.abs(s.tx - s.cx) > 0.02 || Math.abs(s.ty - s.cy) > 0.02) stillMoving = true;
+      });
+      if(eyebrowEl) eyebrowEl.style.transform = 'translate3d(' + driftState.eyebrow.cx.toFixed(2) + 'px,' + driftState.eyebrow.cy.toFixed(2) + 'px,0)';
+      if(titleEl) titleEl.style.transform = 'translate3d(' + driftState.title.cx.toFixed(2) + 'px,' + driftState.title.cy.toFixed(2) + 'px,0)';
+      if(summaryEl) summaryEl.style.transform = 'translate3d(' + driftState.summary.cx.toFixed(2) + 'px,' + driftState.summary.cy.toFixed(2) + 'px,0)';
+      if(eyesEl) eyesEl.style.transform = 'translate3d(' + driftState.eyes.cx.toFixed(2) + 'px,' + driftState.eyes.cy.toFixed(2) + 'px,0)';
+      if(stillMoving){ rafId = window.requestAnimationFrame(tick); } else { rafId = null; }
+    }
+    function ensureTicking(){ if(rafId === null) rafId = window.requestAnimationFrame(tick); }
+
+    hero.addEventListener('mousemove', function(e){
+      var rect = hero.getBoundingClientRect();
+      var dx = ((e.clientX - rect.left) / rect.width - 0.5) * 2;
+      var dy = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+      Object.keys(driftState).forEach(function(key){
+        var s = driftState[key];
+        s.tx = dx * s.move;
+        s.ty = dy * s.move;
+      });
+      ensureTicking();
+    });
+    hero.addEventListener('mouseleave', function(){
+      Object.keys(driftState).forEach(function(key){
+        driftState[key].tx = 0;
+        driftState[key].ty = 0;
+      });
+      ensureTicking();
+    });
+  }
+})();
+</script>
+</body>
+</html>
