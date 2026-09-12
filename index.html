@@ -10,9 +10,14 @@
 <meta property="og:description" content="Case studies on vehicle subscriptions, patient search, and B2B advertising platforms — the structure, the screens, and the reasoning behind each decision.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2391D2C0'/%3E%3Ctext x='50' y='69' font-family='Arial, sans-serif' font-weight='700' font-size='58' text-anchor='middle' fill='%235C4432'%3EIR%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 663.11 670.22'%3E%3Crect width='663.11' height='670.22' fill='%23ffffff'/%3E%3Cpath d='M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z' fill='%23000000'/%3E%3Ccircle cx='115.98' cy='139.73' r='101.54' fill='%23000000'/%3E%3C/svg%3E">
 <title>Imre Rajci — Product &amp; UX Design</title>
 <style>
+@property --parallax-y{
+  syntax:'<length>';
+  inherits:false;
+  initial-value:0px;
+}
 /* QUICK DESIGN EDITS: CHANGE THESE VARIABLES ONLY */
 html{
   overflow-y:scroll;
@@ -136,7 +141,7 @@ html{
   --ease-standard:cubic-bezier(0.2, 0, 0, 1);
   --ease-enter:cubic-bezier(0.22, 1, 0.36, 1);
 
-  --image-ratio:16 / 10;
+  --image-ratio:4 / 3;
 
   --bp-tablet:768px;
   --bp-desktop:1200px;
@@ -199,13 +204,13 @@ body{ margin:0; }
   gap:var(--space-md);
   flex-wrap:wrap;
 }
-.site-header__logo{ display:flex; align-items:center; width:44px; height:44px; color:var(--color-ink-fixed); flex-shrink:0; }
+.site-header__logo{ display:flex; align-items:center; width:55px; height:55px; color:var(--color-ink-fixed); flex-shrink:0; }
 .site-header__logo svg{ width:100%; height:100%; fill:currentColor; display:block; }
 .site-nav{ display:flex; gap:var(--space-md) var(--space-lg); flex-wrap:wrap; }
 .site-nav__link{
   position:relative;
   font-family:var(--font-display);
-  font-size:0.85rem;
+  font-size:1.0625rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
@@ -290,7 +295,7 @@ body{ margin:0; }
 .site-footer{
   position:relative;
   border-top:var(--border-width) solid var(--border-color);
-  margin-top:var(--space-2xl);
+  margin-top:0;
   overflow:hidden;
   background:var(--color-surface);
 }
@@ -416,7 +421,7 @@ body{ margin:0; }
 @media (max-width:480px){
   .site-header__inner{ padding:var(--space-sm); }
   .site-nav{ gap:var(--space-sm) var(--space-md); }
-  .site-nav__link{ font-size:0.76rem; }
+  .site-nav__link{ font-size:0.95rem; }
 }
 
 /* Layout */
@@ -432,6 +437,7 @@ body{ margin:0; }
 /* Hero */
 .hero-home{
   position:relative;
+  isolation:isolate;
   box-sizing:border-box;
   width:100vw;
   left:50%;
@@ -443,6 +449,15 @@ body{ margin:0; }
   display:flex;
   align-items:center;
   justify-content:flex-start;
+}
+.hero-particles{
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  width:100%;
+  height:100%;
+  display:block;
+  pointer-events:none;
 }
 .hero-home__pair{
   display:grid;
@@ -635,8 +650,10 @@ body{ margin:0; }
   margin-top:var(--space-lg);
   position:relative;
   top:-20px;
+  align-self:flex-start;
   z-index:1;
-  width:100%;
+  width:calc(100% + 2 * clamp(24px, 4vw, 56px));
+  margin-left:calc(-1 * clamp(24px, 4vw, 56px));
   overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
   mask-image:linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent);
@@ -655,18 +672,23 @@ body{ margin:0; }
   padding-right:var(--space-sm);
 }
 .hero-home__tag{
-  font-size:0.72rem;
+  font-size:0.86rem;
   font-weight:600;
-  padding:5px 12px;
-  border-radius:999px;
-  border:none;
+  padding:8px 18px;
+  border-radius:6px;
+  border:1px solid rgba(var(--ink-rgb),0.08);
   color:#333333;
-  background:rgba(var(--ink-rgb),0.08);
+  background:rgba(var(--ink-rgb),0.06);
+  box-shadow:0 1px 2px rgba(var(--ink-rgb),0.04);
   white-space:nowrap;
-  transition:transform .2s ease, box-shadow .2s ease;
+  transition:transform .2s ease, box-shadow .2s ease, background-color .2s ease;
 }
 @media (hover:hover){
-  .hero-home__tag:hover{ transform:translateY(-2px); box-shadow:0 6px 14px rgba(var(--ink-rgb),0.15); }
+  .hero-home__tag:hover{
+    background:var(--color-white);
+    transform:translateY(-2px);
+    box-shadow:0 10px 20px rgba(var(--ink-rgb),0.14);
+  }
 }
 @keyframes hero-tags-marquee{
   from{ transform:translateX(0); }
@@ -687,12 +709,7 @@ body{ margin:0; }
   border:var(--border-width) solid var(--border-color);
   border-radius:var(--radius-sm);
   position:relative;
-  perspective:1000px;
-  transition:border-color .3s ease, transform .3s ease;
-}
-.showcase:hover .media-frame{
-  border-color:var(--color-mint);
-  transform:translateY(-6px);
+  transition:border-color .3s ease, transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s cubic-bezier(.16,1,.3,1);
 }
 .media-frame__inner{
   position:relative;
@@ -700,25 +717,21 @@ body{ margin:0; }
   height:100%;
   border-radius:var(--radius-sm);
   overflow:hidden;
-  transform-style:preserve-3d;
-  will-change:transform;
   box-shadow:0 4px 14px rgba(var(--ink-rgb),0.06);
-  transition:transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s cubic-bezier(.16,1,.3,1);
-}
-.media-frame__shine{
-  position:absolute;
-  inset:0;
-  background:radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,0.55), transparent 45%);
-  opacity:0;
-  transition:opacity .3s ease;
-  pointer-events:none;
-  mix-blend-mode:overlay;
-}
-@media (hover:hover){
-  .media-frame:hover .media-frame__shine{ opacity:1; }
 }
 @media (prefers-reduced-motion: reduce){
-  .media-frame__inner{ transition:none; }
+  .media-frame{ transition:none; }
+}
+/* Showcase images float free — no card frame, no border, just the picture. */
+.showcase .media-frame{
+  background:none;
+  border:none;
+  border-radius:0;
+}
+.showcase .media-frame__inner{
+  border-radius:0;
+  box-shadow:none;
+  overflow:visible;
 }
 .media-sketch{
   width:100%;
@@ -768,26 +781,117 @@ body{ margin:0; }
 
 /* Project showcase — gallery style, alternating */
 .showcases{
-  padding:var(--space-xl) 0 var(--space-2xl);
+  width:100vw;
+  max-width:1880px;
+  margin-left:calc(50% - min(50vw, 940px));
+  padding:var(--space-2xl) 0 var(--space-3xl);
   border-top:var(--border-width) solid var(--border-color);
   display:flex;
   flex-direction:column;
-  gap:var(--space-2xl);
+  gap:clamp(180px, 20vw, 280px);
 }
 .showcase{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:var(--space-xl);
+  grid-template-columns:1.4fr 1fr;
   align-items:center;
-  text-decoration:none;
-  color:var(--color-ink);
+  position:relative;
 }
+.showcase__media{
+  min-width:0;
+  transform:translate3d(0,var(--parallax-y, 0px),0);
+}
+.showcase:nth-child(even){ grid-template-columns:1fr 1.4fr; }
 .showcase:nth-child(even) .showcase__media{ order:2; }
 .showcase:nth-child(even) .showcase__body{ order:1; }
+.showcase .media-frame{ border-radius:6px; max-width:3000px; margin-inline:auto; }
+.showcase .media-frame__inner{ border-radius:6px; overflow:hidden; }
+.showcase .media-image{
+  transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .25s ease;
+  opacity:0;
+}
+.showcase .media-image.is-loaded{ opacity:1; }
+.showcase__media:hover .media-image{ transform:scale(1.06); }
+.showcase__body{
+  --parallax-y:0px;
+  position:relative;
+  z-index:2;
+  display:block;
+  text-decoration:none;
+  color:var(--color-ink);
+  cursor:none;
+  background:var(--color-white);
+  border-radius:6px;
+  box-shadow:0 12px 34px rgba(var(--ink-rgb),0.12);
+  padding:clamp(28px, 3vw, 48px);
+  max-width:460px;
+  transform:translateY(var(--parallax-y));
+  will-change:transform;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1);
+}
+.showcase:nth-child(odd) .showcase__body{
+  margin-right:var(--page-gutter);
+  justify-self:end;
+  left:calc(-1 * var(--overlap-mag, 170px));
+}
+.showcase:nth-child(even) .showcase__body{
+  margin-left:var(--page-gutter);
+  justify-self:start;
+  left:var(--overlap-mag, 170px);
+}
+.showcase__body:hover,
+.showcase__body:focus-visible{
+  transform:translateY(calc(var(--parallax-y) - 10px));
+  box-shadow:0 26px 52px rgba(var(--ink-rgb),0.2);
+}
 @media (max-width:800px){
-  .showcase{ grid-template-columns:1fr; gap:var(--space-md); }
+  .showcase,
+  .showcase:nth-child(even){ grid-template-columns:1fr; gap:var(--space-md); }
   .showcase:nth-child(even) .showcase__media,
   .showcase:nth-child(even) .showcase__body{ order:initial; }
+  .showcase__body{
+    max-width:none;
+    margin:0 var(--page-gutter) !important;
+    justify-self:stretch !important;
+    left:0 !important;
+  }
+}
+/* Custom reticle cursor — shown only while hovering a showcase card. */
+.cursor-reticle{
+  position:fixed;
+  top:0;
+  left:0;
+  width:46px;
+  height:46px;
+  margin:-23px 0 0 -23px;
+  border-radius:50%;
+  border:1.5px solid #fff;
+  mix-blend-mode:difference;
+  pointer-events:none;
+  z-index:9999;
+  opacity:0;
+  transform:scale(0.6);
+  transition:opacity .2s ease, transform .2s cubic-bezier(.16,1,.3,1), background-color .2s ease;
+  will-change:transform, left, top;
+}
+.cursor-reticle::before,
+.cursor-reticle::after{
+  content:"";
+  position:absolute;
+  background:#fff;
+  top:50%;
+  left:50%;
+}
+.cursor-reticle::before{ width:14px; height:1.5px; transform:translate(-50%,-50%); }
+.cursor-reticle::after{ width:1.5px; height:14px; transform:translate(-50%,-50%); }
+.cursor-reticle.is-visible{ opacity:1; }
+.cursor-reticle.is-active{
+  background:#fff;
+  transform:scale(0.45);
+}
+.cursor-reticle.is-active::before,
+.cursor-reticle.is-active::after{ opacity:0; }
+@media (hover:none), (pointer:coarse){
+  .cursor-reticle{ display:none; }
 }
 .showcase__eyebrow{
   display:block;
@@ -827,16 +931,23 @@ body{ margin:0; }
   padding-bottom:2px;
 }
 .showcase__arrow{ display:inline-block; transition:transform .2s ease; }
-.showcase:hover .showcase__arrow,
-.showcase:focus-visible .showcase__arrow{ transform:translateX(5px); }
+.showcase__body:hover .showcase__arrow,
+.showcase__body:focus-visible .showcase__arrow{ transform:translateX(5px); }
 
 /* Contact section — editorial two-column layout with a real backend form.
    Local tokens (not the global palette) per the requested design spec. */
 .connect{
-  margin-top:var(--space-2xl);
+  width:100vw;
+  position:relative;
+  left:50%;
+  right:50%;
+  margin-left:-50vw;
+  margin-right:-50vw;
+  margin-top:var(--space-3xl);
+  margin-bottom:0;
   padding:var(--section-space-md) clamp(24px, 4vw, 56px);
   background:var(--color-mint);
-  border-radius:var(--radius-section);
+  border-radius:0;
   color:var(--color-ink);
 }
 .connect__inner{
@@ -916,11 +1027,37 @@ body{ margin:0; }
   text-underline-offset:4px;
 }
 .connect__card{
+  position:relative;
   background:var(--color-surface-warm);
   border:var(--border-width) solid var(--border-color);
-  border-radius:var(--radius-card);
+  border-radius:6px;
   padding:clamp(24px, 3vw, 36px);
   box-shadow:0 20px 40px var(--shadow-color);
+  --parallax-y:0px;
+  will-change:transform;
+}
+.js-ready .connect__intro,
+.js-ready .connect__card{
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.js-ready .connect.is-visible .connect__intro{
+  opacity:1;
+  transform:translateY(0);
+}
+.js-ready .connect.is-visible .connect__card{
+  opacity:1;
+  transform:translateY(var(--parallax-y, 0px));
+  transition:opacity .7s ease, transform .5s cubic-bezier(.16,1,.3,1), box-shadow .3s ease;
+}
+.js-ready .connect.is-visible .connect__card:hover{
+  transform:translateY(calc(var(--parallax-y, 0px) - 6px));
+  box-shadow:0 28px 56px var(--shadow-color);
+}
+@media (prefers-reduced-motion: reduce){
+  .js-ready .connect__intro,
+  .js-ready .connect__card{ transition:none; }
 }
 .connect__form{ display:flex; flex-direction:column; gap:var(--space-md); }
 .connect__row{ display:grid; grid-template-columns:1fr 1fr; gap:var(--space-md); }
@@ -1040,19 +1177,14 @@ body{ margin:0; }
 .js-ready .showcase.is-visible .showcase__media{
   clip-path:inset(0 0 0% 0);
 }
-.showcase__media .media-image{ will-change:transform; }
-@media (prefers-reduced-motion: reduce){
-  .js-ready .showcase__media{ clip-path:none; transition:none; }
-}
-
+.showcase__media{ will-change:transform; }
 .site a:focus-visible, .site *:focus-visible{
   outline:3px solid var(--color-ink);
   outline-offset:2px;
 }
 
 @media (prefers-reduced-motion: reduce){
-  .site *{ animation:none !important; transition:none !important; }
-  .js-ready .showcase{ opacity:1 !important; transform:none !important; }
+  .site *{ animation:none !important; }
 }
 
 .skip-link{
@@ -1132,6 +1264,7 @@ h1, h2, h3{ text-wrap:balance; }
 <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
+<div class="cursor-reticle" id="cursor-reticle" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site">
 
@@ -1156,12 +1289,13 @@ h1, h2, h3{ text-wrap:balance; }
 <div class="site__inner">
 
   <section class="hero-home">
+    <canvas class="hero-particles" id="hero-particles" aria-hidden="true"></canvas>
     <div class="hero-home__pair">
       <div class="hero-home__text">
-        <p class="hero-home__eyebrow">Senior UX/UI Designer</p>
+        <p class="hero-home__eyebrow">AI-Native Product &amp; UX Designer</p>
         <h1 class="hero-home__title"><span class="highlight">Imre Rajci</span></h1>
-        <p class="hero-home__summary">My work centres on user experience, product thinking, and translating complex requirements into clear, buildable interfaces.</p>
-        <a href="#lets-connect" class="hero-home__cta">Let's Connect</a>
+        <p class="hero-home__summary">I combine product thinking, UX design and AI agents to transform complex workflows into intuitive digital experiences from concept to launch.</p>
+        <a href="#work" class="hero-home__cta">Explore My Work</a>
       </div>
       <div class="hero-home__portrait-bleed" aria-hidden="true">
         <div class="hero-home__portrait">
@@ -1226,78 +1360,75 @@ h1, h2, h3{ text-wrap:balance; }
     </div>
   </section>
 
-  <div class="showcases">
+  <div class="showcases" id="work">
 
-    <a class="showcase" href="goldbach-kmu.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame" aria-busy="true">
           <div class="media-frame__inner">
-            <img class="media-image" src="assets/sketches/home-goldbach.svg" alt="Goldbach KMU Website preview" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center">
-            <span class="media-frame__shine" aria-hidden="true"></span>
+            <img class="media-image" src="assets/homepage/goldbach-teaser.webp" alt="Goldbach KMU Website shown on a laptop mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
           </div>
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="goldbach-kmu.html">
         <span class="showcase__eyebrow">Goldbach</span>
         <h2 class="showcase__title">Goldbach KMU Website</h2>
         <p class="showcase__summary">A redesign of Goldbach's 24-page KMU website section, combined with separate UX feedback work on their B2B booking platform.</p>
-        <p class="showcase__meta"><strong>Role</strong> Multimedia Designer &nbsp;·&nbsp; <strong>Scope</strong> 24-page section</p>
+        <p class="showcase__meta"><strong>Role</strong> CX/UX Designer &nbsp;·&nbsp; <strong>Scope</strong> 24-page section</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <a class="showcase" href="dentist-finder.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame">
           <div class="media-frame__inner">
-            <img class="media-image" src="assets/homepage/dentist-finder.png" alt="Dentist Finder app preview on a phone mockup" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center">
-            <span class="media-frame__shine" aria-hidden="true"></span>
+            <img class="media-image" src="assets/homepage/dentist-finder-teaser.webp" alt="Dentist Finder app preview on a phone mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
           </div>
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="dentist-finder.html">
         <span class="showcase__eyebrow">Self-initiated</span>
         <h2 class="showcase__title">Dentist Finder</h2>
         <p class="showcase__summary">A self-initiated product exploring a clearer way to search for and compare dental practices, with its own design system.</p>
         <p class="showcase__meta"><strong>Role</strong> Product &amp; UX/UI Designer &nbsp;·&nbsp; <strong>Status</strong> Functional online version</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <a class="showcase" href="hertz-minilease.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame">
           <div class="media-frame__inner">
-            <img class="media-image" src="assets/homepage/hertz-minilease.png" alt="Hertz MiniLease interface on a laptop mockup" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center">
-            <span class="media-frame__shine" aria-hidden="true"></span>
+            <img class="media-image" src="assets/homepage/hertz-teaser.webp" alt="Hertz MiniLease interface on a laptop mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
           </div>
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="hertz-minilease.html">
         <span class="showcase__eyebrow">Hertz Switzerland</span>
         <h2 class="showcase__title">Hertz MiniLease</h2>
         <p class="showcase__summary">A vehicle subscription platform for Swiss private and business customers, from browsing to a structured sales inquiry.</p>
         <p class="showcase__meta"><strong>Role</strong> UX/UI Designer</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <a class="showcase" href="visual-campaigns.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame">
           <div class="media-frame__inner">
-            <img class="media-image" src="assets/homepage/visual-campaigns.png" alt="Panasonic social media campaign preview" loading="lazy" style="width:100%; height:100%; object-fit:cover; object-position:center">
-            <span class="media-frame__shine" aria-hidden="true"></span>
+            <img class="media-image" src="assets/homepage/motion-design-teaser.webp" alt="Imre Rajci logo mark shown on a tablet mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
           </div>
         </div>
       </div>
-      <div class="showcase__body">
-        <span class="showcase__eyebrow">Social campaigns</span>
-        <h2 class="showcase__title">Visual Campaigns</h2>
-        <p class="showcase__summary">Social media creative for brand and performance campaigns, including concept and art direction for Panasonic and Cardinal.</p>
-        <span class="showcase__link">View campaigns <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      <a class="showcase__body" href="motion-design.html">
+        <span class="showcase__eyebrow">Motion &amp; Interaction</span>
+        <h2 class="showcase__title">Motion Design</h2>
+        <p class="showcase__summary">A reel of recent motion design work — animation, transitions and interface micro-interactions.</p>
+        <p class="showcase__meta"><strong>Role</strong> Motion Designer &nbsp;·&nbsp; <strong>Format</strong> Client work reel</p>
+        <span class="showcase__link">View reel <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
+      </a>
+    </div>
 
   </div>
 
@@ -1570,11 +1701,9 @@ h1, h2, h3{ text-wrap:balance; }
   }
 
 
-  var showcases = document.querySelectorAll('.showcase');
+  var showcases = document.querySelectorAll('.showcase, .connect');
 
-  if(reduceMotion){
-    showcases.forEach(function(el){ el.classList.add('is-visible'); });
-  } else if('IntersectionObserver' in window){
+  if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
@@ -1588,13 +1717,23 @@ h1, h2, h3{ text-wrap:balance; }
     showcases.forEach(function(el){ el.classList.add('is-visible'); });
   }
 
+  document.querySelectorAll('.showcase .media-image').forEach(function(img){
+    var reveal = function(){ img.classList.add('is-loaded'); };
+    if(img.complete){
+      reveal();
+    } else {
+      img.addEventListener('load', reveal);
+      img.addEventListener('error', reveal);
+    }
+  });
+
   var showcaseImages = [];
   showcases.forEach(function(card){
     var media = card.querySelector('.showcase__media');
-    var inner = media ? media.querySelector('.media-image') : null;
-    if(media && inner) showcaseImages.push({media:media, inner:inner});
+    var body = card.querySelector('.showcase__body');
+    if(media) showcaseImages.push({media:media, body:body});
   });
-  if(showcaseImages.length && !reduceMotion){
+  if(showcaseImages.length){
     var showcaseTicking = false;
     var updateShowcaseParallax = function(){
       var vh = window.innerHeight || document.documentElement.clientHeight;
@@ -1602,8 +1741,12 @@ h1, h2, h3{ text-wrap:balance; }
         var r = item.media.getBoundingClientRect();
         var center = r.top + r.height / 2;
         var offset = (center - vh / 2) / vh;
-        var shiftY = Math.max(-26, Math.min(26, offset * -26));
-        item.inner.style.transform = 'translate3d(0,' + shiftY.toFixed(1) + 'px,0) scale(1.14)';
+        var mediaShift = Math.max(-70, Math.min(70, offset * -70));
+        item.media.style.setProperty('--parallax-y', mediaShift.toFixed(1) + 'px');
+        if(item.body){
+          var bodyShift = Math.max(-32, Math.min(32, offset * 32));
+          item.body.style.setProperty('--parallax-y', bodyShift.toFixed(1) + 'px');
+        }
       });
       showcaseTicking = false;
     };
@@ -1616,39 +1759,75 @@ h1, h2, h3{ text-wrap:balance; }
     updateShowcaseParallax();
   }
 
-  var showcaseTiltCanHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-  if(showcaseTiltCanHover && !reduceMotion){
-    document.querySelectorAll('.showcase .media-frame').forEach(function(frame){
-      var inner = frame.querySelector('.media-frame__inner');
-      var shine = frame.querySelector('.media-frame__shine');
-      if(!inner || !shine) return;
-      var raf = null;
-      var applyTilt = function(x, y){
-        var rect = frame.getBoundingClientRect();
-        var px = (x - rect.left) / rect.width;
-        var py = (y - rect.top) / rect.height;
-        var rotateY = (px - 0.5) * 14;
-        var rotateX = (0.5 - py) * 14;
-        inner.style.transform = 'rotateX(' + rotateX.toFixed(2) + 'deg) rotateY(' + rotateY.toFixed(2) + 'deg) scale3d(1.04,1.04,1.04)';
-        inner.style.boxShadow = (-(rotateY) * 1.4).toFixed(1) + 'px ' + (rotateX * 1.4).toFixed(1) + 'px 30px rgba(var(--ink-rgb),0.28)';
-        shine.style.setProperty('--mx', (px * 100).toFixed(1) + '%');
-        shine.style.setProperty('--my', (py * 100).toFixed(1) + '%');
-      };
-      frame.addEventListener('mousemove', function(e){
-        if(raf) return;
-        raf = window.requestAnimationFrame(function(){
-          applyTilt(e.clientX, e.clientY);
-          raf = null;
-        });
-      });
-      frame.addEventListener('mouseleave', function(){
-        inner.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1,1,1)';
-        inner.style.boxShadow = '0 4px 14px rgba(var(--ink-rgb),0.06)';
-      });
-    });
+  var connectCard = document.querySelector('.connect__card');
+  if(connectCard){
+    var connectTicking = false;
+    var updateConnectParallax = function(){
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var r = connectCard.getBoundingClientRect();
+      var center = r.top + r.height / 2;
+      var offset = (center - vh / 2) / vh;
+      var shift = Math.max(-32, Math.min(32, offset * 32));
+      connectCard.style.setProperty('--parallax-y', shift.toFixed(1) + 'px');
+      connectTicking = false;
+    };
+    window.addEventListener('scroll', function(){
+      if(!connectTicking){
+        window.requestAnimationFrame(updateConnectParallax);
+        connectTicking = true;
+      }
+    }, {passive:true});
+    updateConnectParallax();
   }
 
+  var fixShowcaseOverlap = function(){
+    showcases.forEach(function(card, i){
+      var media = card.querySelector('.showcase__media');
+      var body = card.querySelector('.showcase__body');
+      if(!media || !body) return;
+      body.style.setProperty('--overlap-mag', '0px');
+      var mr = media.getBoundingClientRect();
+      var br = body.getBoundingClientRect();
+      var isOdd = (i % 2 === 0);
+      var desiredOverlap = 28;
+      var gap = isOdd ? (br.left - mr.right) : (mr.left - br.right);
+      var mag = Math.max(0, gap + desiredOverlap);
+      body.style.setProperty('--overlap-mag', mag.toFixed(1) + 'px');
+    });
+  };
+  fixShowcaseOverlap();
+  window.addEventListener('load', fixShowcaseOverlap);
+  var showcaseOverlapResizeTimer;
+  window.addEventListener('resize', function(){
+    window.clearTimeout(showcaseOverlapResizeTimer);
+    showcaseOverlapResizeTimer = window.setTimeout(fixShowcaseOverlap, 150);
+  });
+
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  var reticle = document.getElementById('cursor-reticle');
+  if(reticle && canHover){
+    var reticleX = 0, reticleY = 0, reticleTicking = false;
+    var moveReticle = function(){
+      reticle.style.left = reticleX + 'px';
+      reticle.style.top = reticleY + 'px';
+      reticleTicking = false;
+    };
+    document.addEventListener('mousemove', function(e){
+      reticleX = e.clientX;
+      reticleY = e.clientY;
+      if(!reticleTicking){
+        window.requestAnimationFrame(moveReticle);
+        reticleTicking = true;
+      }
+    }, {passive:true});
+    document.querySelectorAll('.showcase__body').forEach(function(cardBody){
+      cardBody.addEventListener('mouseenter', function(){ reticle.classList.add('is-visible'); });
+      cardBody.addEventListener('mouseleave', function(){ reticle.classList.remove('is-visible', 'is-active'); });
+      cardBody.addEventListener('mousedown', function(){ reticle.classList.add('is-active'); });
+      cardBody.addEventListener('mouseup', function(){ reticle.classList.remove('is-active'); });
+    });
+  }
 
   var hero = document.querySelector('.hero-home');
   var eyebrowEl = document.querySelector('.hero-home__eyebrow');
@@ -1701,6 +1880,300 @@ h1, h2, h3{ text-wrap:balance; }
       });
       ensureTicking();
     });
+  }
+})();
+</script>
+<script>
+/* Hero particle field — subtle "anti-gravity" ambient animation for the
+   homepage hero. Self-contained; does nothing if #hero-particles is absent.
+
+   Tunables (all below): particle size, lifetime, rise speed, wind
+   strength, wobble amount, and density (count per unit area, plus
+   hard min/max caps and a mobile scale-down factor). */
+(function heroParticles(){
+  var canvas = document.getElementById('hero-particles');
+  var hero = document.querySelector('.hero-home');
+  if(!canvas || !hero || !canvas.getContext) return;
+
+  var ctx = canvas.getContext('2d');
+
+  /* Brand palette only — pulled from the site's existing accent colors
+     (mint / yellow / peach / sky / blush). No new colors introduced. */
+  var PALETTE = ['#91D2C0', '#FCE795', '#FED28A', '#96C9EC', '#E5BCD9'].map(function(hex){
+    var v = parseInt(hex.slice(1), 16);
+    return [(v >> 16) & 255, (v >> 8) & 255, v & 255];
+  });
+
+  /* ---- Tunable parameters ---- */
+  var SHAPES = ['circle', 'circle', 'circle', 'triangle', 'square', 'sparkle']; // mostly circles, a few triangles/squares/AI sparkles mixed in
+  var MIN_SIZE = 5, MAX_SIZE = 15;               // particle diameter, px
+  var MIN_LIFETIME = 8000, MAX_LIFETIME = 18000; // full fade-in/life/fade-out cycle, ms
+  var MIN_RISE_SPEED = 16, MAX_RISE_SPEED = 38;  // upward speed, px/sec
+  var WIND_STRENGTH = 56;                        // max horizontal wind offset, px
+  var WOBBLE_AMPLITUDE = 27;                     // per-particle organic curve, px
+  var DENSITY_DIVISOR = 11500;                   // visible-area / this = particle count
+  var MIN_COUNT = 13, MAX_COUNT = 40;            // hard caps regardless of area
+  var MOBILE_COUNT_SCALE = 0.6;                  // extra reduction under 700px wide
+  var MIN_ALPHA = 0.7, MAX_ALPHA = 1;            // opacity range (kept fairly visible)
+  var MOUSE_RADIUS = 220;                        // px — how close the cursor needs to be to pull a particle in
+  var MOUSE_PUSH = 46;                           // px — max gentle pull right next to the cursor
+
+  var particles = [];
+  var width = 0, height = 0, dpr = 1;
+  var running = false, rafId = null, lastTime = null;
+  var startTime = performance.now();
+  var pageVisible = true, heroInView = true;
+  var mouseX = null, mouseY = null;
+  var canHoverMouse = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function rand(min, max){ return min + Math.random() * (max - min); }
+  function pick(arr){ return arr[(Math.random() * arr.length) | 0]; }
+  function easeOutCubic(t){ return 1 - Math.pow(1 - t, 3); }
+  function easeInCubic(t){ return t * t * t; }
+
+  function targetCount(){
+    var n = Math.round((width * height) / DENSITY_DIVISOR);
+    n = Math.max(MIN_COUNT, Math.min(MAX_COUNT, n));
+    if(width < 700) n = Math.max(6, Math.round(n * MOBILE_COUNT_SCALE));
+    return n;
+  }
+
+  /* Spawn points cover most of the hero, but steer away from the
+     headline / summary / CTA text block so it stays fully readable.
+     Each particle owns a loose grid cell (assigned once, at creation)
+     and always respawns with a jittered position inside it — this is
+     what keeps the field looking evenly spread rather than clumping
+     wherever Math.random() happens to land. */
+  var avoidRect = null;
+  var gridCols = 1, gridRows = 1;
+  function pointInAvoidRect(x, y){
+    if(!avoidRect) return false;
+    var pad = 14;
+    return x > avoidRect.left - pad && x < avoidRect.right + pad &&
+           y > avoidRect.top - pad && y < avoidRect.bottom + pad;
+  }
+  function spawnPoint(cellIndex){
+    var col = cellIndex % gridCols;
+    var row = Math.floor(cellIndex / gridCols) % gridRows;
+    var cellW = width / gridCols;
+    var cellH = (height * 0.93) / gridRows;
+    var cellX = col * cellW;
+    var cellY = height * 0.05 + row * cellH;
+    for(var attempt = 0; attempt < 6; attempt++){
+      var x = rand(cellX, cellX + cellW);
+      var y = rand(cellY, cellY + cellH);
+      if(!pointInAvoidRect(x, y)) return [x, y];
+    }
+    return [x, y];
+  }
+
+  function resetParticle(p, randomAge){
+    var p0 = spawnPoint(p.cellIndex || 0);
+    p.baseX = p0[0];
+    p.x = p0[0];
+    p.y = p0[1];
+    p.baseY = p0[1];
+    p.size = rand(MIN_SIZE, MAX_SIZE);
+    p.color = pick(PALETTE);
+    p.baseAlpha = rand(MIN_ALPHA, MAX_ALPHA);
+    p.riseSpeed = rand(MIN_RISE_SPEED, MAX_RISE_SPEED);
+    p.wobbleFreq = rand(0.26, 0.7);
+    p.wobblePhase = rand(0, Math.PI * 2);
+    p.windFactor = rand(0.5, 1);
+    /* Anti-gravity "hang and drift" feel: rise speed isn't constant — it
+       slowly surges and stalls, and a gentle vertical bob rides on top
+       of the steady climb, like something weightless rather than falling
+       upward on rails. */
+    p.speedWobbleFreq = rand(0.06, 0.16);
+    p.speedWobblePhase = rand(0, Math.PI * 2);
+    p.vBobFreq = rand(0.15, 0.35);
+    p.vBobPhase = rand(0, Math.PI * 2);
+    p.vBobAmplitude = rand(4, 10);
+    p.lifetime = rand(MIN_LIFETIME, MAX_LIFETIME);
+    p.age = randomAge ? rand(0, p.lifetime) : 0;
+    p.shape = pick(SHAPES);
+    p.rotPhase = rand(0, Math.PI * 2);
+    p.rotSpeed = (Math.random() < 0.5 ? -1 : 1) * rand(0.4, 1);
+    return p;
+  }
+
+  function openingScreenHeight(rect){
+    var header = document.querySelector('.site-header');
+    var headerH = header ? header.getBoundingClientRect().height : 84;
+    var viewportRoom = Math.max(240, window.innerHeight - headerH);
+    return Math.min(rect.height, viewportRoom);
+  }
+
+  function resize(){
+    var rect = hero.getBoundingClientRect();
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = Math.max(1, Math.round(rect.width));
+    height = Math.max(1, Math.round(openingScreenHeight(rect)));
+    canvas.width = Math.round(width * dpr);
+    canvas.height = Math.round(height * dpr);
+    canvas.style.width = width + 'px';
+    canvas.style.height = height + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    var textEl = document.querySelector('.hero-home__text');
+    if(textEl){
+      var tr = textEl.getBoundingClientRect();
+      avoidRect = {
+        left: tr.left - rect.left,
+        top: tr.top - rect.top,
+        right: tr.right - rect.left,
+        bottom: tr.bottom - rect.top
+      };
+    }
+
+    var target = targetCount();
+    gridCols = Math.max(1, Math.round(Math.sqrt(target * (width / height))));
+    gridRows = Math.max(1, Math.ceil(target / gridCols));
+    while(particles.length < target){
+      var np = {cellIndex: particles.length};
+      particles.push(resetParticle(np, true));
+    }
+    if(particles.length > target) particles.length = target;
+  }
+
+  /* Slow, continuously changing wind — sum of two low-frequency sines,
+     never a hard direction flip. */
+  function windX(elapsed){
+    return Math.sin(elapsed * 0.00019) * WIND_STRENGTH * 0.7 +
+           Math.sin(elapsed * 0.00048 + 1.7) * WIND_STRENGTH * 0.3;
+  }
+
+  function draw(now){
+    if(lastTime === null) lastTime = now;
+    var dt = Math.min(64, now - lastTime);
+    lastTime = now;
+    var elapsed = now - startTime;
+    var wind = windX(elapsed);
+
+    ctx.clearRect(0, 0, width, height);
+
+    for(var i = 0; i < particles.length; i++){
+      var p = particles[i];
+      p.age += dt;
+      if(p.age >= p.lifetime){
+        resetParticle(p, false);
+        continue;
+      }
+      var t = p.age / p.lifetime;
+
+      var envelope;
+      if(t < 0.18) envelope = easeOutCubic(t / 0.18);
+      else if(t > 0.76) envelope = easeInCubic(1 - (t - 0.76) / 0.24);
+      else envelope = 1;
+
+      var scale = 0.55 + 0.45 * envelope;
+      var alpha = p.baseAlpha * envelope;
+
+      var speedMod = 0.4 + 0.9 * (0.5 + 0.5 * Math.sin(elapsed * 0.001 * p.speedWobbleFreq + p.speedWobblePhase));
+      p.baseY -= p.riseSpeed * speedMod * (dt / 1000);
+      var vBob = Math.sin(elapsed * 0.001 * p.vBobFreq + p.vBobPhase) * p.vBobAmplitude;
+      p.y = p.baseY + vBob;
+      var wobble = Math.sin(elapsed * 0.001 * p.wobbleFreq + p.wobblePhase) * WOBBLE_AMPLITUDE;
+      p.x = p.baseX + wind * p.windFactor + wobble;
+
+      /* Gentle cursor gravity — particles within a soft radius drift in
+         toward the mouse, then ease right back once it moves on. */
+      if(mouseX !== null){
+        var dx = mouseX - p.x, dy = mouseY - p.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        if(dist < MOUSE_RADIUS && dist > 0.01){
+          var pull = (1 - dist / MOUSE_RADIUS) * MOUSE_PUSH;
+          p.x += (dx / dist) * pull;
+          p.y += (dy / dist) * pull;
+        }
+      }
+
+      if(alpha <= 0.01) continue;
+      var r = Math.max(0.4, (p.size * scale) / 2);
+      ctx.fillStyle = 'rgba(' + p.color[0] + ',' + p.color[1] + ',' + p.color[2] + ',' + alpha.toFixed(3) + ')';
+      if(p.shape === 'circle'){
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        var angle = elapsed * 0.001 * p.rotSpeed + p.rotPhase;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(angle);
+        ctx.beginPath();
+        if(p.shape === 'triangle'){
+          var h = r * 1.7;
+          ctx.moveTo(0, -h * 0.6);
+          ctx.lineTo(-r, h * 0.4);
+          ctx.lineTo(r, h * 0.4);
+          ctx.closePath();
+        } else if(p.shape === 'sparkle'){
+          var outerR = r * 1.7, innerR = r * 0.5;
+          for(var si = 0; si < 8; si++){
+            var sAngle = (Math.PI / 4) * si;
+            var sRad = (si % 2 === 0) ? outerR : innerR;
+            var sx = Math.cos(sAngle) * sRad, sy = Math.sin(sAngle) * sRad;
+            if(si === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+          }
+          ctx.closePath();
+        } else {
+          var s = r * 1.6;
+          ctx.rect(-s / 2, -s / 2, s, s);
+        }
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    if(running) rafId = window.requestAnimationFrame(draw);
+  }
+
+  function start(){
+    if(running) return;
+    running = true;
+    lastTime = null;
+    rafId = window.requestAnimationFrame(draw);
+  }
+  function stop(){
+    running = false;
+    if(rafId) window.cancelAnimationFrame(rafId);
+    rafId = null;
+  }
+  function updateRunState(){
+    if(pageVisible && heroInView) start(); else stop();
+  }
+
+  resize();
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){ heroInView = entry.isIntersecting; });
+      updateRunState();
+    }, {threshold: 0});
+    io.observe(hero);
+  }
+  document.addEventListener('visibilitychange', function(){
+    pageVisible = document.visibilityState === 'visible';
+    updateRunState();
+  });
+  updateRunState();
+
+  var resizeTimer;
+  window.addEventListener('resize', function(){
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(resize, 150);
+  });
+
+  if(canHoverMouse){
+    hero.addEventListener('mousemove', function(e){
+      var r = hero.getBoundingClientRect();
+      mouseX = e.clientX - r.left;
+      mouseY = e.clientY - r.top;
+    }, {passive: true});
+    hero.addEventListener('mouseleave', function(){
+      mouseX = null;
+      mouseY = null;
+    }, {passive: true});
   }
 })();
 </script>

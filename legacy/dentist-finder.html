@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 663.11 670.22'%3E%3Crect width='663.11' height='670.22' fill='%23ffffff'/%3E%3Cpath d='M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z' fill='%23000000'/%3E%3Ccircle cx='115.98' cy='139.73' r='101.54' fill='%23000000'/%3E%3C/svg%3E">
 <title>Dentist Finder — UX/UI Case Study | Imre Rajci</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
@@ -10,7 +11,11 @@
 /* QUICK DESIGN EDITS: CHANGE THESE VARIABLES ONLY */
 html{
   overflow-y:scroll;
+  overflow-x:hidden;
   scrollbar-gutter:stable;
+}
+body{
+  overflow-x:hidden;
 }
 *, *::before, *::after{
   box-sizing:border-box;
@@ -160,7 +165,9 @@ html{
 .case-study__inner{
   max-width:var(--content-max);
   margin:0 auto;
+  margin-top:var(--header-h, 84px);
   padding:var(--space-xl) var(--page-gutter) var(--space-2xl);
+  counter-reset:casesection;
 }
 @media (max-width:768px){
   .case-study__inner{ padding:var(--space-lg) var(--space-sm) var(--space-xl); }
@@ -191,7 +198,7 @@ html{
 /* Hero */
 .hero{ padding-bottom:var(--space-xl); }
 .hero__eyebrow{
-  font-size:0.8rem;
+  font-size:1rem;
   font-weight:700;
   text-transform:uppercase;
   letter-spacing:0.08em;
@@ -203,15 +210,16 @@ html{
 .hero__title{
   font-family:var(--font-display);
   font-weight:700;
-  font-size:clamp(2.1rem, 1.5rem + 3vw, 3.4rem);
-  line-height:1.08;
-  margin-bottom:var(--space-md);
+  font-size:clamp(2.8rem, 1.8rem + 5vw, 5.5rem);
+  line-height:0.98;
+  margin-bottom:var(--space-lg);
   will-change:transform;
   position:relative;
   z-index:1;
 }
 .hero__summary{
-  font-size:clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  font-size:clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  max-width:var(--reading-width);
   color:rgba(var(--ink-rgb),0.85);
   margin-bottom:var(--space-lg);
   will-change:transform;
@@ -237,7 +245,7 @@ html{
   .hero__meta{ grid-template-columns:1fr 1fr; gap:var(--space-sm); }
 }
 .hero__meta-item dt{
-  font-size:0.72rem;
+  font-size:1rem;
   text-transform:uppercase;
   letter-spacing:0.06em;
   color:rgba(var(--ink-rgb),0.55);
@@ -256,6 +264,21 @@ html{
   border-radius:var(--radius-sm);
   overflow:hidden;
 }
+.media-placeholder{
+  width:100%;
+  aspect-ratio:16 / 10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--color-surface);
+  color:rgba(var(--ink-rgb),0.4);
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:1.2rem;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+}
+/* Hero image breaks out to full viewport width — the magazine "opening spread" moment. */
 .media-sketch{
   width:100%;
   aspect-ratio:var(--image-ratio);
@@ -296,7 +319,7 @@ html{
   border-bottom:18px solid var(--color-mint);
 }
 .media-sketch__label{
-  font-size:0.82rem;
+  font-size:1rem;
   font-weight:600;
   color:rgba(var(--ink-rgb),0.5);
   letter-spacing:0.02em;
@@ -309,43 +332,170 @@ html{
   gap:var(--space-2xs) var(--space-sm);
   align-items:baseline;
 }
-.media-caption__number{ font-weight:700; font-size:0.78rem; letter-spacing:0.04em; text-transform:uppercase; }
-.media-caption__file{ font-family:"Courier New", monospace; font-size:0.78rem; color:rgba(var(--ink-rgb),0.6); }
-.media-caption__desc{ flex-basis:100%; font-size:0.92rem; color:rgba(var(--ink-rgb),0.78); }
+.media-caption__number{ font-weight:700; font-size:1rem; letter-spacing:0.04em; text-transform:uppercase; }
+.media-caption__file{ font-family:"Courier New", monospace; font-size:1rem; color:rgba(var(--ink-rgb),0.6); }
+.media-caption__desc{ flex-basis:100%; font-size:1rem; color:rgba(var(--ink-rgb),0.78); }
 .media-image{
   width:100%;
-  aspect-ratio:var(--image-ratio);
-  object-fit:contain;
+  height:auto;
   background:var(--color-surface);
   border:var(--border-width) solid var(--border-color);
   border-radius:var(--radius-sm);
   display:block;
+  opacity:0;
+  clip-path:inset(0 0 100% 0);
+  transform:scale(1);
+  transition:opacity .5s ease, clip-path .85s cubic-bezier(.16,1,.3,1), transform .5s cubic-bezier(.16,1,.3,1);
 }
-
+.media-image.is-loaded{
+  opacity:1;
+  transform:scale(1);
+}
+.media-frame:hover .media-image.is-loaded{ transform:scale(1.02); }
+/* Hero photo is a real 4:3 photo (not the 16:10 sketch placeholders), so it gets its
+   own ratio here to avoid letterboxing inside the frame. It's shown as a plain
+   picture — no border, no caption bar — matching how the homepage shows it. */
+.hero .media-image{ aspect-ratio:4 / 3; }
+.hero > .media-frame{ background:none; border:none; width:calc(100% + 160px); margin-left:-80px; }
+@media (max-width:600px){
+  .hero > .media-frame{ width:100%; margin-left:0; }
+}
+.hero > .media-frame .media-image{ border:none; }
+.media-caption{ display:none; }
 /* Sections */
 .section{
-  padding:var(--space-2xl) 0;
+  padding:var(--space-3xl) 0;
   border-top:var(--border-width) solid var(--border-color);
+  counter-increment:casesection;
 }
-.section--first{ border-top:none; padding-top:var(--space-lg); }
+.section--first{ border-top:none; padding-top:var(--space-xl); }
 .section__title{
   font-family:var(--font-display);
   font-weight:700;
-  font-size:clamp(1.5rem, 1.2rem + 1.4vw, 2.1rem);
-  line-height:1.15;
+  font-size:clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  line-height:1.1;
   margin-bottom:var(--space-md);
+  position:relative;
+  padding-left:clamp(48px, 7vw, 84px);
+}
+.section__subhead{
+  font-family:var(--font-display);
+  font-size:clamp(1.2rem, 1.05rem + 0.6vw, 1.45rem);
+  font-weight:500;
+  line-height:1.5;
+  color:rgba(var(--ink-rgb),0.82);
+  max-width:880px;
+  margin-top:var(--space-md);
+  margin-bottom:var(--space-lg);
+}
+.section__columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:var(--space-xl);
+  margin-top:var(--space-md);
+}
+.section__col .section__subhead{ margin-top:0; max-width:none; }
+.section__col p{ max-width:none; }
+@media (max-width:820px){
+  .section__columns{ grid-template-columns:1fr; gap:var(--space-lg); }
+}
+.section__title::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0.08em;
+  width:34px;
+  height:34px;
+  background-color:var(--color-ink);
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+}
+#context .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/%3E%3Cline x1='4' y1='22' x2='4' y2='15'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z'/%3E%3Cline x1='4' y1='22' x2='4' y2='15'/%3E%3C/svg%3E");  transform-origin:0% 60%; animation:flag-wave 2.4s ease-in-out infinite }
+#role .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87'/%3E%3Cpath d='M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");  transform-origin:50% 50%; animation:people-pulse 2.4s ease-in-out infinite }
+#approach .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolygon points='16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpolygon points='16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76'/%3E%3C/svg%3E");  transform-origin:50% 50%; animation:compass-swing 2.6s ease-in-out infinite }
+#decisions .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='9' y1='18' x2='15' y2='18'/%3E%3Cline x1='10' y1='22' x2='14' y2='22'/%3E%3Cpath d='M15.09 14c.18-.98.65-1.74 1.41-2.5A6 6 0 1 0 6.5 11.5c.76.76 1.24 1.52 1.41 2.5'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='9' y1='18' x2='15' y2='18'/%3E%3Cline x1='10' y1='22' x2='14' y2='22'/%3E%3Cpath d='M15.09 14c.18-.98.65-1.74 1.41-2.5A6 6 0 1 0 6.5 11.5c.76.76 1.24 1.52 1.41 2.5'/%3E%3C/svg%3E");  transform-origin:50% 50%; animation:bulb-glow 2s ease-in-out infinite }
+#decisions .section__title::after{
+  content:"";
+  position:absolute;
+  left:0;
+  top:0.08em;
+  width:34px;
+  height:34px;
+  background-color:var(--color-ink);
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+  -webkit-mask-position:center;
+  mask-position:center;
+  -webkit-mask-size:contain;
+  mask-size:contain;
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='2.8' y1='8.5' x2='0.8' y2='8.5'/%3E%3Cline x1='18.8' y1='8.5' x2='20.8' y2='8.5'/%3E%3Cline x1='5.14' y1='2.84' x2='3.73' y2='1.43'/%3E%3Cline x1='16.46' y1='2.84' x2='17.87' y2='1.43'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='2.8' y1='8.5' x2='0.8' y2='8.5'/%3E%3Cline x1='18.8' y1='8.5' x2='20.8' y2='8.5'/%3E%3Cline x1='5.14' y1='2.84' x2='3.73' y2='1.43'/%3E%3Cline x1='16.46' y1='2.84' x2='17.87' y2='1.43'/%3E%3C/svg%3E");
+  pointer-events:none;
+  animation:ray-flash 5.5s ease-in-out infinite;
+}
+#solution .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z'/%3E%3Cpath d='M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z'/%3E%3Cpath d='M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0'/%3E%3Cpath d='M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z'/%3E%3Cpath d='M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z'/%3E%3Cpath d='M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0'/%3E%3Cpath d='M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5'/%3E%3C/svg%3E");  transform-origin:50% 85%; animation:rocket-launch 2.2s ease-in-out infinite; }
+@keyframes rocket-launch{
+  0%,100%{ transform:translateY(0) rotate(-6deg); }
+  50%{ transform:translateY(-7px) rotate(6deg); }
+}
+@keyframes flag-wave{
+  0%,100%{ transform:rotate(0deg) skewY(0deg); }
+  50%{ transform:rotate(4deg) skewY(-5deg); }
+}
+@keyframes people-pulse{
+  0%,100%{ transform:scale(1); }
+  50%{ transform:scale(1.1); }
+}
+@keyframes compass-swing{
+  0%,100%{ transform:rotate(-14deg); }
+  50%{ transform:rotate(14deg); }
+}
+@keyframes bulb-glow{
+  0%,100%{ opacity:1; filter:drop-shadow(0 0 0 rgba(var(--ink-rgb),0)); }
+  50%{ opacity:0.72; filter:drop-shadow(0 0 5px rgba(var(--ink-rgb),0.85)); }
+}
+@keyframes ray-flash{
+  0%,40%,60%,100%{ opacity:0; transform:scale(0.8); }
+  50%{ opacity:1; transform:scale(1.15); }
+}
+@keyframes chart-grow{
+  0%,100%{ transform:scaleY(0.82); }
+  50%{ transform:scaleY(1); }
+}
+@keyframes book-flip{
+  0%,100%{ transform:rotateY(0deg); }
+  50%{ transform:rotateY(-22deg); }
+}
+#outcome .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='6' y1='20' x2='6' y2='12'/%3E%3Cline x1='12' y1='20' x2='12' y2='6'/%3E%3Cline x1='18' y1='20' x2='18' y2='15'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='6' y1='20' x2='6' y2='12'/%3E%3Cline x1='12' y1='20' x2='12' y2='6'/%3E%3Cline x1='18' y1='20' x2='18' y2='15'/%3E%3C/svg%3E");  transform-origin:50% 100%; animation:chart-grow 2.2s ease-in-out infinite }
+#reflection .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5A2.5 2.5 0 0 1 6.5 17H20'/%3E%3Cpath d='M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z'/%3E%3C/svg%3E");  transform-origin:0% 50%; animation:book-flip 3s ease-in-out infinite }
+#design-system .section__title::before{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='3' width='7' height='7'/%3E%3Crect x='14' y='3' width='7' height='7'/%3E%3Crect x='14' y='14' width='7' height='7'/%3E%3Crect x='3' y='14' width='7' height='7'/%3E%3C/svg%3E"); }
+@media (max-width:520px){
+  .section__title{ padding-left:0; }
+  .section__title::before{ position:static; display:block; margin-bottom:var(--space-xs); }
 }
 .section__title + .section__lead{ margin-top:calc(-1 * var(--space-sm)); }
-.section p{ margin-bottom:var(--space-sm); }
+.section p{ margin-bottom:var(--space-sm); max-width:880px; }
 .section p:last-child{ margin-bottom:0; }
-.section__media{ margin-top:var(--space-lg); display:flex; flex-direction:column; gap:var(--space-lg); }
+.section__media{
+  margin-top:calc(var(--space-xl) + 56px);
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(320px, 1fr));
+  gap:var(--space-lg);
+  align-items:start;
+}
 
 /* Approach */
 .approach__list{
   display:grid;
-  grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-  gap:var(--space-lg) var(--space-md);
+  grid-template-columns:repeat(2, 1fr);
+  gap:var(--space-lg) var(--space-xl);
   counter-reset:step;
+}
+@media (max-width:600px){
+  .approach__list{ grid-template-columns:1fr; }
 }
 .approach__step{ position:relative; padding-top:calc(var(--space-sm) + 16px); }
 .approach__step::after{
@@ -371,20 +521,20 @@ html{
 .approach__step:nth-child(4n+2)::after{ background:var(--color-yellow); }
 .approach__step:nth-child(4n+3)::after{ background:var(--color-blue); }
 .approach__step:nth-child(4n+4)::after{ background:var(--color-pink); }
-.approach__step p{ font-size:0.95rem; max-width:none; }
+.approach__step p{ font-size:1rem; max-width:none; }
 
 /* Decisions */
 .decisions__grid{
   display:grid;
   grid-template-columns:repeat(auto-fit, minmax(230px, 1fr));
-  gap:var(--space-md);
+  gap:var(--space-lg);
   counter-reset:decision;
 }
 .decision-card{
   background:var(--color-white);
   border:var(--border-width) solid var(--border-color);
   border-radius:var(--radius-sm);
-  padding:var(--space-md);
+  padding:var(--space-lg);
   counter-increment:decision;
 }
 .decision-card__index{
@@ -400,18 +550,20 @@ html{
 .decision-card:nth-child(3n+2) .decision-card__index{ color:var(--color-yellow); }
 .decision-card:nth-child(3n+3) .decision-card__index{ color:var(--color-blue); }
 .decision-card h3{ font-size:1.05rem; margin-bottom:var(--space-2xs); line-height:1.3; }
-.decision-card p{ font-size:0.92rem; color:rgba(var(--ink-rgb),0.8); max-width:none; }
+.decision-card p{ font-size:1rem; color:rgba(var(--ink-rgb),0.8); max-width:none; }
 
 /* Design system blocks */
-.ds-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:var(--space-md); }
-.ds-block{ border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:var(--space-md); background:var(--color-white); }
+.ds-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px, 1fr)); gap:var(--space-lg); }
+.ds-block{ border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:var(--space-lg); background:var(--color-white); transition:transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s ease; }
+.ds-block:hover,
+.js-ready .section.is-visible .ds-block:hover{ transform:translateY(-4px); box-shadow:0 16px 32px var(--shadow-color); }
 .ds-block h3{ font-size:1rem; margin-bottom:6px; }
-.ds-block p{ font-size:0.9rem; color:rgba(var(--ink-rgb),0.8); max-width:none; }
+.ds-block p{ font-size:1rem; color:rgba(var(--ink-rgb),0.8); max-width:none; }
 .token-row{ display:flex; gap:var(--space-sm); flex-wrap:wrap; margin-top:var(--space-sm); }
-.token-swatch{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:0.7rem; color:rgba(var(--ink-rgb),0.65); }
+.token-swatch{ display:flex; flex-direction:column; align-items:center; gap:6px; font-size:1rem; color:rgba(var(--ink-rgb),0.65); }
 .token-swatch span{ width:34px; height:34px; border-radius:50%; border:var(--border-width) solid var(--border-color); }
 .state-list{ display:flex; flex-wrap:wrap; gap:var(--space-2xs); margin-top:var(--space-sm); }
-.state-list li{ font-size:0.76rem; padding:4px 10px; border:var(--border-width) solid var(--border-color); border-radius:999px; color:rgba(var(--ink-rgb),0.75); }
+.state-list li{ font-size:1rem; padding:4px 10px; border:var(--border-width) solid var(--border-color); border-radius:999px; color:rgba(var(--ink-rgb),0.75); }
 
 /* Outcome */
 .outcome__stats{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:var(--space-md); margin-top:var(--space-md); }
@@ -426,12 +578,35 @@ html{
   100%{ opacity:0; transform:var(--confetti-end); }
 }
 .stat-card__value{ display:block; font-family:var(--font-display); font-weight:700; font-size:clamp(2rem, 1.6rem + 2vw, 2.6rem); line-height:1; margin-bottom:var(--space-2xs); transform-origin:left bottom; }
-.stat-card__label{ font-size:0.9rem; color:rgba(var(--ink-rgb),0.75); max-width:none; }
-.outcome__note{ margin-top:var(--space-sm); font-size:0.85rem; color:rgba(var(--ink-rgb),0.6); }
+.stat-card__label{ font-size:1rem; color:rgba(var(--ink-rgb),0.75); max-width:none; }
+.outcome__note{ margin-top:var(--space-sm); font-size:1rem; color:rgba(var(--ink-rgb),0.6); }
 
 /* Reflection */
-.reflection{ border-left:3px solid var(--color-yellow); padding-left:var(--space-md); }
+.reflection{
+  position:relative;
+  padding-left:var(--space-md);
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  gap:var(--space-xl);
+  align-items:center;
+}
+.reflection::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:28px;
+  bottom:0;
+  width:3px;
+  background:var(--color-yellow);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+.reflection:hover::before{ opacity:1; }
 .reflection p{ font-size:1.05rem; line-height:1.6; }
+.reflection .section__media{ margin-top:0; }
+@media (max-width:820px){
+  .reflection{ grid-template-columns:1fr; }
+}
 
 /* Next project nav */
 .next-project{ margin-top:var(--space-xl); padding-top:var(--space-lg); border-top:var(--border-width) solid var(--border-color); }
@@ -445,7 +620,7 @@ html{
   padding:var(--space-lg) 0;
 }
 .next-project__text{ display:flex; flex-direction:column; gap:6px; }
-.next-project__label{ font-size:0.78rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(var(--ink-rgb),0.55); }
+.next-project__label{ font-size:1rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(var(--ink-rgb),0.55); }
 .next-project__title{ font-family:var(--font-display); font-weight:700; font-size:clamp(1.4rem, 1.1rem + 1.6vw, 2rem); }
 .next-project__arrow{ font-size:1.6rem; flex-shrink:0; }
 .next-project__link:hover .next-project__title,
@@ -460,7 +635,9 @@ html{
   transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
 .decision-card:hover,
-.decision-card:focus-within{
+.decision-card:focus-within,
+.js-ready .section.is-visible .decision-card:hover,
+.js-ready .section.is-visible .decision-card:focus-within{
   transform:translateY(-4px);
   box-shadow:0 10px 24px rgba(var(--ink-rgb),0.1);
 }
@@ -479,6 +656,28 @@ html{
 .js-ready .section.is-visible{
   opacity:1;
   transform:translateY(0);
+}
+.js-ready .decision-card,
+.js-ready .ds-block{
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+.js-ready .section.is-visible .decision-card,
+.js-ready .section.is-visible .ds-block{
+  opacity:1;
+  transform:translateY(0);
+}
+.decisions__grid .decision-card:nth-child(2),
+.ds-grid .ds-block:nth-child(2){ transition-delay:.08s; }
+.decisions__grid .decision-card:nth-child(3),
+.ds-grid .ds-block:nth-child(3){ transition-delay:.16s; }
+.ds-grid .ds-block:nth-child(4){ transition-delay:.24s; }
+.ds-grid .ds-block:nth-child(5){ transition-delay:.32s; }
+.ds-grid .ds-block:nth-child(6){ transition-delay:.4s; }
+@media (prefers-reduced-motion: reduce){
+  .js-ready .decision-card,
+  .js-ready .ds-block{ transition:none; }
 }
 
 /* Metadata row — reveals one item at a time on load. Progressive enhancement only:
@@ -503,33 +702,42 @@ html{
   outline-offset:2px;
 }
 
-@media (prefers-reduced-motion: reduce){
-  .case-study *{ animation:none !important; transition:none !important; }
-  .case-study .hero__meta-item{ opacity:1 !important; transform:none !important; }
-}
 
 @media (min-width:1200px){
   .case-study__inner{ padding-top:var(--space-2xl); }
 }
 /* Site header */
-.site-header{ background:var(--color-mint); }
+.site-header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:100;
+  background:var(--color-mint);
+  border-bottom:1px solid transparent;
+  transition:background-color .3s var(--motion-ease), backdrop-filter .3s var(--motion-ease), border-color .3s var(--motion-ease);
+}
+.site-header.is-scrolled{
+  background-color:color-mix(in srgb, var(--color-mint) 92%, transparent);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border-bottom-color:var(--border-color);
+}
 .site-header__inner{
-  max-width:var(--content-width);
-  margin:0 auto;
-  padding:20px var(--space-md);
+  padding:20px clamp(24px, 4vw, 56px);
   display:flex;
   align-items:center;
   justify-content:space-between;
   gap:var(--space-md);
   flex-wrap:wrap;
 }
-.site-header__logo{ display:flex; align-items:center; width:44px; height:44px; color:var(--color-ink); flex-shrink:0; }
+.site-header__logo{ display:flex; align-items:center; width:55px; height:55px; color:var(--color-ink); flex-shrink:0; }
 .site-header__logo svg{ width:100%; height:100%; fill:currentColor; display:block; }
 .site-nav{ display:flex; gap:var(--space-md) var(--space-lg); flex-wrap:wrap; }
 .site-nav__link{
   position:relative;
   font-family:var(--font-display);
-  font-size:0.85rem;
+  font-size:1.0625rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
@@ -607,7 +815,7 @@ html{
 @media (max-width:480px){
   .site-header__inner{ padding:var(--space-sm); }
   .site-nav{ gap:var(--space-sm) var(--space-md); }
-  .site-nav__link{ font-size:0.76rem; }
+  .site-nav__link{ font-size:1rem; }
 }
 
 /* Site footer */
@@ -621,7 +829,7 @@ html{
   justify-content:space-between;
   gap:var(--space-md);
   flex-wrap:wrap;
-  font-size:0.85rem;
+  font-size:1rem;
   color:rgba(var(--ink-rgb),0.6);
 }
 .site-footer nav{ display:flex; gap:var(--space-md); flex-wrap:wrap; }
@@ -667,68 +875,56 @@ html{
   <header class="hero">
     <p class="hero__eyebrow">Case study</p>
     <h1 class="hero__title"><span class="highlight">Dentist</span> <span class="hero__title-rest">Finder</span></h1>
-    <p class="hero__summary">A self-initiated product exploring a clearer way to search for and compare dental practices, taken from concept to a functional online version with its own design system.</p>
+    <p class="hero__summary">Dentist Finder is a self-initiated product that I developed with a software developer. I shaped the concept, search journey and interface, and created the design system that supported its functional online version.</p>
 
     <dl class="hero__meta">
       <div class="hero__meta-item"><dt>Type</dt><dd>Self-initiated product</dd></div>
       <div class="hero__meta-item"><dt>Role</dt><dd>Product &amp; UX/UI Designer</dd></div>
-      <div class="hero__meta-item"><dt>Status</dt><dd>Functional online version</dd></div>
+      <div class="hero__meta-item"><dt>Outcome</dt><dd>Functional online version</dd></div>
     </dl>
 
-    <!-- REPLACE_IMAGE_01:
-    Replace the placeholder below with:
-    <img class="media-image"
-         src="PASTE-WIX-IMAGE-URL-HERE"
-         alt="Dentist Finder web and mobile screens shown together">
-    -->
     <div class="media-frame">
-      <img class="media-image" src="../assets/sketches/dentist-01-hero.svg" alt="Dentist Finder web and mobile screens shown together" loading="lazy">
+      <img class="media-image" src="../assets/homepage/dentist-finder-teaser.webp" alt="Dentist Finder's desktop and mobile interface" width="3000" height="2250">
       <div class="media-caption">
         <span class="media-caption__number">Image 01</span>
-        <span class="media-caption__file">dentistfinder-hero-web-mobile.jpg</span>
-        <p class="media-caption__desc">Web and mobile Dentist Finder screens presented together.</p>
+        <p class="media-caption__desc">Dentist Finder's desktop and mobile interface.</p>
       </div>
     </div>
   </header>
 
   <!-- 2. CONTEXT AND CHALLENGE -->
   <section class="section section--first" id="context">
-    <h2 class="section__title">Context and challenge</h2>
-    <p>Finding a dental practice online often means scrolling through inconsistent listings with little useful information to compare. Dentist Finder started as a personal initiative to explore a clearer, more structured way to search for and compare dental practices.</p>
-    <p>The challenge was less about any single screen and more about consistency: every practice needed to be searchable, filterable and comparable through the same structure, and the interface needed a system that could grow without breaking that consistency.</p>
-  </section>
-
-  <!-- 3. MY ROLE AND COLLABORATION -->
-  <section class="section" id="role">
-    <h2 class="section__title">My role and collaboration</h2>
-    <p>I was responsible for the product concept, information architecture, user flows, wireframes, UX/UI design and the responsive interface, working with one software developer on technical implementation.</p>
-    <p>Because it was a two-person project, I also designed the underlying design system myself: the visual foundations, tokens and components that kept the interface consistent as new screens were added.</p>
+    <h2 class="section__title">Context and my role</h2>
+    <div class="section__columns">
+      <div class="section__col">
+        <p class="section__subhead">A self-initiated product connecting search, comparison and practice profiles.</p>
+        <p>Dentist Finder began with a question: how could searching for a dental practice become easier to navigate? The idea was to bring practice information into a shared format so people could narrow their options and compare relevant details.</p>
+        <p>That required more than individual screens. Search, filters, result cards and practice profiles needed to work together, with a clear path from an initial query to a closer look at a practice.</p>
+      </div>
+      <div class="section__col">
+        <p class="section__subhead">My role: product concept, UX/UI design and the design system.</p>
+        <p>I was responsible for the product concept, information architecture, user flows, wireframes and responsive UX/UI design. I worked with a software developer to turn the design into a functional online experience.</p>
+        <p>I also created the design system, defining the visual foundations, reusable components and interaction states used throughout the interface.</p>
+      </div>
+    </div>
   </section>
 
   <!-- 4. APPROACH -->
   <section class="section" id="approach">
     <h2 class="section__title">Approach</h2>
     <ol class="approach__list">
-      <li class="approach__step"><p>Defined the core user task — searching for and comparing dental practices — and mapped it into a simple flow from search to profile.</p></li>
-      <li class="approach__step"><p>Sketched low-fidelity wireframes for the key screens before any visual design, to test the structure of search, filtering and comparison.</p></li>
-      <li class="approach__step"><p>Built a design system of reusable components and tokens so new screens and states could be added consistently.</p></li>
-      <li class="approach__step"><p>Worked with a developer to bring the flow to a functional online version.</p></li>
+      <li class="approach__step"><p><strong>Define the core journey.</strong> I mapped the steps from searching and filtering to comparing results and opening a practice profile.</p></li>
+      <li class="approach__step"><p><strong>Work through the structure.</strong> I used wireframes to explore how the key screens and information would fit together before developing the visual design.</p></li>
+      <li class="approach__step"><p><strong>Create reusable building blocks.</strong> I defined the styles, components and states needed across the product.</p></li>
+      <li class="approach__step"><p><strong>Build with a developer.</strong> We brought the designs into a working online version, connecting the screens into a usable flow.</p></li>
     </ol>
 
     <div class="section__media">
-      <!-- REPLACE_IMAGE_02:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="Low-fidelity wireframes of the key Dentist Finder screens before visual design"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-03-wireframes.svg" alt="Low-fidelity wireframes of the key Dentist Finder screens before visual design" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 03</span>
-          <span class="media-caption__file">dentistfinder-wireframes.jpg</span>
-          <p class="media-caption__desc">Key low-fidelity screens showing the structure before visual design.</p>
+          <p class="media-caption__desc">Early wireframes exploring the key screens and information structure.</p>
         </div>
       </div>
     </div>
@@ -740,18 +936,18 @@ html{
     <div class="decisions__grid">
       <div class="decision-card">
         <span class="decision-card__index"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg></span>
-        <h3>Search and filter before individual profiles</h3>
-        <p>Patients needed to narrow down options before committing to reading a full profile, so filtering came first in the structure rather than being an afterthought.</p>
+        <h3>Help people narrow their options first</h3>
+        <p>Search and filters lead into the results, allowing users to explore a smaller set of practices before opening individual profiles.</p>
       </div>
       <div class="decision-card">
         <span class="decision-card__index"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-        <h3>A shared card and profile format for every practice</h3>
-        <p>Comparable information mattered more than distinctive layouts, so every practice used the same structure for its core details, regardless of size or specialty.</p>
+        <h3>Make practice information comparable</h3>
+        <p>Cards and profiles follow a shared format. Keeping core details in predictable places helps users review their options without having to interpret a new layout each time.</p>
       </div>
       <div class="decision-card">
         <span class="decision-card__index"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg></span>
-        <h3>A token-based design system from early on</h3>
-        <p>With only two people building the product, consistency had to come from the system itself, not from manually checking every new screen against the last one.</p>
+        <h3>Establish shared rules early</h3>
+        <p>I created reusable components and design tokens while developing the core screens. This gave design and implementation a common reference as we added new parts of the interface.</p>
       </div>
     </div>
   </section>
@@ -759,16 +955,16 @@ html{
   <!-- 10. DESIGN SYSTEM (Dentist Finder only) -->
   <section class="section" id="design-system">
     <h2 class="section__title">Design system</h2>
-    <p>As a two-person team, the design system did the work a larger team would normally split across several people. It kept new screens consistent and made the product easier to extend as the scope grew.</p>
+    <p>The design system connected the product's visual language with its everyday interactions. It covered the following foundations and components.</p>
 
     <div class="ds-grid">
       <div class="ds-block">
-        <h3>Foundations</h3>
-        <p>Colour, typography, spacing and grid rules defined once and reused across every screen, so new work started from the same base.</p>
+        <h3>Visual foundations</h3>
+        <p>Colour, typography, spacing and grid rules gave the interface a shared visual structure.</p>
       </div>
       <div class="ds-block">
-        <h3>Colour and typography tokens</h3>
-        <p>Core colours and type styles were set as tokens rather than one-off values, so a change in one place updated the whole interface consistently.</p>
+        <h3>Design tokens</h3>
+        <p>Named colour and typography values made styles easier to reuse and update consistently.</p>
         <div class="token-row" aria-hidden="true">
           <span class="token-swatch"><span style="background:var(--color-mint)"></span>Mint</span>
           <span class="token-swatch"><span style="background:var(--color-ink)"></span>Ink</span>
@@ -777,72 +973,48 @@ html{
         </div>
       </div>
       <div class="ds-block">
-        <h3>Spacing and layout rules</h3>
-        <p>A consistent spacing scale and grid kept search results, cards and forms aligned across the platform instead of being adjusted screen by screen.</p>
+        <h3>Layout rules</h3>
+        <p>A common spacing scale and grid organised results, cards and forms across different screen sizes.</p>
       </div>
       <div class="ds-block">
         <h3>Reusable components</h3>
-        <p>Search fields, filters, cards, buttons, navigation and form fields were built once as components with defined variants, then reused across the product.</p>
+        <p>Search fields, filters, practice cards, buttons, navigation and form fields included variants for their different uses.</p>
       </div>
       <div class="ds-block">
-        <h3>Interface states</h3>
-        <p>Each interactive component had defined default, hover, focus, selected, error and disabled states, so behaviour stayed predictable wherever a component appeared.</p>
+        <h3>Interaction states</h3>
+        <p>Defined default, hover, focus, selected, error and disabled states clarified how interactive elements should behave.</p>
         <ul class="state-list" aria-hidden="true">
           <li>Default</li><li>Hover</li><li>Focus</li><li>Selected</li><li>Error</li><li>Disabled</li>
         </ul>
       </div>
       <div class="ds-block">
         <h3>Responsive behaviour</h3>
-        <p>Components were designed to adapt across desktop, tablet and mobile layouts using the same underlying structure, not separate designs per breakpoint.</p>
+        <p>Layouts adapted the same components for desktop, tablet and mobile, maintaining a recognisable experience across devices.</p>
       </div>
     </div>
 
     <div class="section__media">
-      <!-- REPLACE_IMAGE_04:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="Overview of Dentist Finder colour, typography, spacing, grid and icon foundations"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-04-foundations.svg" alt="Overview of Dentist Finder colour, typography, spacing, grid and icon foundations" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 04</span>
-          <span class="media-caption__file">dentistfinder-design-foundations.jpg</span>
-          <p class="media-caption__desc">Colour, typography, spacing, grid, icon and token overview.</p>
+          <p class="media-caption__desc">Colour, typography, spacing and design tokens.</p>
         </div>
       </div>
 
-      <!-- REPLACE_IMAGE_05:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="Component library showing search, filters, cards, buttons and form fields with variants and states"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-05-components.svg" alt="Component library showing search, filters, cards, buttons and form fields with variants and states" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 05</span>
-          <span class="media-caption__file">dentistfinder-component-library.jpg</span>
-          <p class="media-caption__desc">Search, filters, cards, buttons, navigation and form fields with variants and states.</p>
+          <p class="media-caption__desc">Reusable components and their interaction states.</p>
         </div>
       </div>
 
-      <!-- REPLACE_IMAGE_06:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="The same Dentist Finder components shown across desktop, tablet and mobile layouts"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-06-responsive.svg" alt="The same Dentist Finder components shown across desktop, tablet and mobile layouts" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 06</span>
-          <span class="media-caption__file">dentistfinder-responsive-system.jpg</span>
-          <p class="media-caption__desc">The same components shown across desktop, tablet and mobile layouts.</p>
+          <p class="media-caption__desc">How the layouts adapt across desktop, tablet and mobile.</p>
         </div>
       </div>
     </div>
@@ -851,38 +1023,24 @@ html{
   <!-- 6. THE SOLUTION -->
   <section class="section" id="solution">
     <h2 class="section__title">The solution</h2>
-    <p>The core journey runs from search to profile: a patient enters a location or need, narrows the results with filters, then compares practices through a shared card format before opening a full profile for details.</p>
+    <p class="section__subhead">A shared search-to-profile journey, built on a reusable component library.</p>
+    <p>Users can enter a location or need, narrow the results with filters and review practices through a shared card format. Opening a profile provides more detail about an individual practice.</p>
+    <p>The interface and component library were developed together, linking the overall search journey to the smaller interactions within it.</p>
 
     <div class="section__media">
-      <!-- REPLACE_IMAGE_02b:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="Dentist Finder search entry, filters, results and practice profile flow"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-02-journey.svg" alt="Dentist Finder search entry, filters, results and practice profile flow" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 02</span>
-          <span class="media-caption__file">dentistfinder-search-journey.jpg</span>
-          <p class="media-caption__desc">Search entry, filters, results and dental-practice profile flow.</p>
+          <p class="media-caption__desc">The journey from search and filters to a practice profile.</p>
         </div>
       </div>
 
-      <!-- REPLACE_IMAGE_07:
-      Replace the placeholder below with:
-      <img class="media-image"
-           src="PASTE-WIX-IMAGE-URL-HERE"
-           alt="Montage of the final Dentist Finder search results, profile and supporting screens"
-           loading="lazy">
-      -->
       <div class="media-frame">
-        <img class="media-image" src="../assets/sketches/dentist-07-final.svg" alt="Montage of the final Dentist Finder search results, profile and supporting screens" loading="lazy">
+        <div class="media-placeholder">Coming Soon</div>
         <div class="media-caption">
           <span class="media-caption__number">Image 07</span>
-          <span class="media-caption__file">dentistfinder-final-solution.jpg</span>
-          <p class="media-caption__desc">A polished montage of search results, profile and supporting screens.</p>
+          <p class="media-caption__desc">Selected screens from the functional online version.</p>
         </div>
       </div>
     </div>
@@ -891,13 +1049,22 @@ html{
   <!-- 7. OUTCOME -->
   <section class="section" id="outcome">
     <h2 class="section__title">Outcome</h2>
-    <p>Dentist Finder reached a functional online version where users could search for and compare dental practices through the interface and design system built for it. As a two-person project, the system itself — not a large team — kept the product consistent as it grew.</p>
+    <p>Dentist Finder reached a functional online version with a connected search and comparison flow. The project brought together my work on product structure, interface design and a reusable design system, realised in collaboration with a developer.</p>
   </section>
 
   <!-- 8. REFLECTION -->
   <section class="section reflection" id="reflection">
-    <h2 class="section__title">Reflection</h2>
-    <p>Building both the product and its design system with one developer meant every shortcut would have shown up later. Keeping the token and component structure disciplined from the start made new screens faster to design, and it's the part of this project I'd carry into any small-team product.</p>
+    <div class="reflection__text">
+      <h2 class="section__title">What I learned</h2>
+      <p class="section__subhead">Behaviour matters as much as appearance — and shared components pay off early.</p>
+      <p>Working closely with a developer made it important to explain how the experience should behave, not only how it should look. Defining components and states early gave us a shared reference and made subsequent design work easier to extend.</p>
+    </div>
+
+    <div class="section__media">
+      <div class="media-frame">
+        <img class="media-image" src="../assets/sketches/dentist-reflection-takeaways.svg" alt="Three key takeaways: designing behaviour not just looks, defining shared components early, and building one reference that made later work easier" width="800" height="900">
+      </div>
+    </div>
   </section>
 
   <!-- 9. NEXT PROJECT NAVIGATION -->
@@ -919,6 +1086,35 @@ html{
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js-ready');
 
+  document.querySelectorAll('.media-image').forEach(function(img){
+    var frame = img.closest('.media-frame');
+    var reveal = function(){
+      img.classList.add('is-loaded');
+      if(frame) frame.removeAttribute('aria-busy');
+    };
+    if(img.complete){
+      reveal();
+    } else {
+      img.addEventListener('load', reveal);
+      img.addEventListener('error', reveal);
+    }
+  });
+
+  var siteHeader = document.querySelector('.site-header');
+  if(siteHeader){
+    var setHeaderHeight = function(){
+      document.documentElement.style.setProperty('--header-h', siteHeader.offsetHeight + 'px');
+    };
+    setHeaderHeight();
+    window.addEventListener('resize', setHeaderHeight);
+
+    var updateHeaderScrollState = function(){
+      siteHeader.classList.toggle('is-scrolled', window.scrollY > 8);
+    };
+    updateHeaderScrollState();
+    window.addEventListener('scroll', updateHeaderScrollState, {passive:true});
+  }
+
   var navToggle = document.querySelector('.site-nav__toggle');
   var siteNav = document.getElementById('site-nav');
   if(navToggle && siteNav){
@@ -935,11 +1131,6 @@ html{
   }
 
   var sections = document.querySelectorAll('.case-study .section');
-
-  if(reduceMotion){
-    sections.forEach(function(el){ el.classList.add('is-visible'); });
-    return;
-  }
 
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){

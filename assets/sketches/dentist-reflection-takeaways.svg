@@ -1,0 +1,49 @@
+<svg viewBox="0 0 800 900" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="800" height="900" fill="#FFFFFF"/>
+
+  <text x="60" y="72" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" fill="#5C4432" opacity="0.45" letter-spacing="0.16em">KEY TAKEAWAYS</text>
+
+  <line x1="94" y1="150" x2="94" y2="770" stroke="#5C4432" stroke-opacity="0.15" stroke-width="2" stroke-dasharray="2 8" stroke-linecap="round"/>
+
+  <!-- Row 1: design behaviour, not just looks -->
+  <g>
+    <circle cx="94" cy="150" r="38" fill="#91D2C0"/>
+    <g transform="translate(94,150)" stroke="#3F2D20" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-14,-16 h22 a4,4 0 0 1 4,4 v12 a4,4 0 0 1 -4,4 h-14 l-6,6 v-6 h-2 a4,4 0 0 1 -4,-4 v-12 a4,4 0 0 1 4,-4 z"/>
+    </g>
+    <text x="150" y="130" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">Design behaviour,</text>
+    <text x="150" y="160" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">not just looks</text>
+    <text x="150" y="192" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">Explaining how the experience should behave</text>
+    <text x="150" y="214" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">mattered as much as how it looked.</text>
+  </g>
+
+  <!-- Row 2: shared components, defined early -->
+  <g>
+    <circle cx="94" cy="410" r="38" fill="#FCE795"/>
+    <g transform="translate(94,410)" stroke="#3F2D20" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-14,-18 h20 l8,8 v28 h-28 z"/>
+      <path d="M6,-18 v8 h8"/>
+      <path d="M-8,0 h16 M-8,8 h16 M-8,16 h10"/>
+    </g>
+    <text x="150" y="390" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">Shared components,</text>
+    <text x="150" y="420" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">defined early</text>
+    <text x="150" y="452" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">Defining components and states early gave</text>
+    <text x="150" y="474" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">design and development a shared reference.</text>
+  </g>
+
+  <!-- Row 3: one reference, easier to extend -->
+  <g>
+    <circle cx="94" cy="670" r="38" fill="#96C9EC"/>
+    <g transform="translate(94,670)" stroke="#3F2D20" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-16,0 A16,16 0 1 1 -12,11"/>
+      <path d="M-18,-8 l2,10 l10,-2"/>
+    </g>
+    <text x="150" y="650" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">One reference,</text>
+    <text x="150" y="680" font-family="Arial, Helvetica, sans-serif" font-size="25" font-weight="800" fill="#3F2D20">easier to extend</text>
+    <text x="150" y="712" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">That shared reference made subsequent</text>
+    <text x="150" y="734" font-family="Arial, Helvetica, sans-serif" font-size="15.5" fill="#4A4A4A">design work faster and easier to extend.</text>
+  </g>
+
+  <line x1="60" y1="820" x2="740" y2="820" stroke="#5C4432" stroke-opacity="0.12" stroke-width="1"/>
+  <text x="60" y="856" font-family="Arial, Helvetica, sans-serif" font-size="13" fill="#5C4432" opacity="0.4" font-style="italic">Dentist Finder — lessons carried into every project since.</text>
+</svg>

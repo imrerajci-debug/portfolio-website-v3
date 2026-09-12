@@ -10,9 +10,14 @@
 <meta property="og:description" content="Case studies on vehicle subscriptions, patient search, and B2B advertising platforms — the structure, the screens, and the reasoning behind each decision.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2391D2C0'/%3E%3Ctext x='50' y='69' font-family='Arial, sans-serif' font-weight='700' font-size='58' text-anchor='middle' fill='%235C4432'%3EIR%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 663.11 670.22'%3E%3Crect width='663.11' height='670.22' fill='%23ffffff'/%3E%3Cpath d='M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z' fill='%23000000'/%3E%3Ccircle cx='115.98' cy='139.73' r='101.54' fill='%23000000'/%3E%3C/svg%3E">
 <title>Product & UX/UI Design | Imre Rajci</title>
 <style>
+@property --parallax-y{
+  syntax:'<length>';
+  inherits:false;
+  initial-value:0px;
+}
 /* QUICK DESIGN EDITS: CHANGE THESE VARIABLES ONLY */
 html{
   overflow-y:scroll;
@@ -132,7 +137,7 @@ html{
   --ease-standard:cubic-bezier(0.2, 0, 0, 1);
   --ease-enter:cubic-bezier(0.22, 1, 0.36, 1);
 
-  --image-ratio:16 / 10;
+  --image-ratio:4 / 3;
 
   --bp-tablet:768px;
   --bp-desktop:1200px;
@@ -193,13 +198,13 @@ html{
   gap:var(--space-md);
   flex-wrap:wrap;
 }
-.site-header__logo{ display:flex; align-items:center; width:44px; height:44px; color:var(--color-ink-fixed); flex-shrink:0; }
+.site-header__logo{ display:flex; align-items:center; width:55px; height:55px; color:var(--color-ink-fixed); flex-shrink:0; }
 .site-header__logo svg{ width:100%; height:100%; fill:currentColor; display:block; }
 .site-nav{ display:flex; gap:var(--space-md) var(--space-lg); flex-wrap:wrap; }
 .site-nav__link{
   position:relative;
   font-family:var(--font-display);
-  font-size:0.85rem;
+  font-size:1.0625rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
@@ -301,7 +306,7 @@ html{
 @media (max-width:480px){
   .site-header__inner{ padding:var(--space-sm); }
   .site-nav{ gap:var(--space-sm) var(--space-md); }
-  .site-nav__link{ font-size:0.76rem; }
+  .site-nav__link{ font-size:0.95rem; }
 }
 
 /* Layout */
@@ -408,6 +413,7 @@ html{
 /* Media placeholder (shared with case studies) */
 .media-frame{
   width:100%;
+  aspect-ratio:var(--image-ratio);
   background:var(--color-surface);
   border:var(--border-width) solid var(--border-color);
   border-radius:var(--radius-sm);
@@ -415,10 +421,20 @@ html{
   position:relative;
   transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
 }
-.showcase:hover .media-frame{
-  border-color:var(--color-mint);
-  box-shadow:0 10px 24px rgba(var(--ink-rgb),0.08);
+/* Showcase images float free — no card frame, no border, just the picture. */
+.showcase .media-frame{
+  background:none;
+  border:none;
+  border-radius:6px;
+  max-width:3000px;
+  margin-inline:auto;
 }
+.showcase .media-image{
+  transition:transform .6s cubic-bezier(.16,1,.3,1), opacity .25s ease;
+  opacity:0;
+}
+.showcase .media-image.is-loaded{ opacity:1; }
+.showcase__media:hover .media-image{ transform:scale(1.06); }
 .media-sketch{
   width:100%;
   aspect-ratio:var(--image-ratio);
@@ -467,26 +483,109 @@ html{
 
 /* Project showcase — gallery style, alternating */
 .showcases{
-  padding:var(--space-xl) 0 var(--space-2xl);
+  width:100vw;
+  max-width:1880px;
+  margin-left:calc(50% - min(50vw, 940px));
+  padding:var(--space-2xl) 0 var(--space-3xl);
   border-top:var(--border-width) solid var(--border-color);
   display:flex;
   flex-direction:column;
-  gap:var(--space-2xl);
+  gap:clamp(180px, 20vw, 280px);
 }
 .showcase{
   display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:var(--space-xl);
+  grid-template-columns:1.4fr 1fr;
   align-items:center;
-  text-decoration:none;
-  color:var(--color-ink);
+  position:relative;
 }
+.showcase__media{
+  min-width:0;
+  transform:translate3d(0,var(--parallax-y, 0px),0);
+}
+.showcase:nth-child(even){ grid-template-columns:1fr 1.4fr; }
 .showcase:nth-child(even) .showcase__media{ order:2; }
 .showcase:nth-child(even) .showcase__body{ order:1; }
+.showcase__body{
+  --parallax-y:0px;
+  position:relative;
+  z-index:2;
+  display:block;
+  text-decoration:none;
+  color:var(--color-ink);
+  cursor:none;
+  background:var(--color-white);
+  border-radius:6px;
+  box-shadow:0 12px 34px rgba(var(--ink-rgb),0.12);
+  padding:clamp(28px, 3vw, 48px);
+  max-width:460px;
+  transform:translateY(var(--parallax-y));
+  will-change:transform;
+  transition:transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s cubic-bezier(.16,1,.3,1);
+}
+.showcase:nth-child(odd) .showcase__body{
+  margin-right:var(--page-gutter);
+  justify-self:end;
+  left:calc(-1 * var(--overlap-mag, 170px));
+}
+.showcase:nth-child(even) .showcase__body{
+  margin-left:var(--page-gutter);
+  justify-self:start;
+  left:var(--overlap-mag, 170px);
+}
+.showcase__body:hover,
+.showcase__body:focus-visible{
+  transform:translateY(calc(var(--parallax-y) - 10px));
+  box-shadow:0 26px 52px rgba(var(--ink-rgb),0.2);
+}
 @media (max-width:800px){
-  .showcase{ grid-template-columns:1fr; gap:var(--space-md); }
+  .showcase,
+  .showcase:nth-child(even){ grid-template-columns:1fr; gap:var(--space-md); }
   .showcase:nth-child(even) .showcase__media,
   .showcase:nth-child(even) .showcase__body{ order:initial; }
+  .showcase__body{
+    max-width:none;
+    margin:0 var(--page-gutter) !important;
+    justify-self:stretch !important;
+    left:0 !important;
+  }
+}
+/* Custom reticle cursor — shown only while hovering a showcase card. */
+.cursor-reticle{
+  position:fixed;
+  top:0;
+  left:0;
+  width:46px;
+  height:46px;
+  margin:-23px 0 0 -23px;
+  border-radius:50%;
+  border:1.5px solid #fff;
+  mix-blend-mode:difference;
+  pointer-events:none;
+  z-index:9999;
+  opacity:0;
+  transform:scale(0.6);
+  transition:opacity .2s ease, transform .2s cubic-bezier(.16,1,.3,1), background-color .2s ease;
+  will-change:transform, left, top;
+}
+.cursor-reticle::before,
+.cursor-reticle::after{
+  content:"";
+  position:absolute;
+  background:#fff;
+  top:50%;
+  left:50%;
+}
+.cursor-reticle::before{ width:14px; height:1.5px; transform:translate(-50%,-50%); }
+.cursor-reticle::after{ width:1.5px; height:14px; transform:translate(-50%,-50%); }
+.cursor-reticle.is-visible{ opacity:1; }
+.cursor-reticle.is-active{
+  background:#fff;
+  transform:scale(0.45);
+}
+.cursor-reticle.is-active::before,
+.cursor-reticle.is-active::after{ opacity:0; }
+@media (hover:none), (pointer:coarse){
+  .cursor-reticle{ display:none; }
 }
 .showcase__number{
   display:block;
@@ -534,8 +633,8 @@ html{
   padding-bottom:2px;
 }
 .showcase__arrow{ display:inline-block; transition:transform .2s ease; }
-.showcase:hover .showcase__arrow,
-.showcase:focus-visible .showcase__arrow{ transform:translateX(5px); }
+.showcase__body:hover .showcase__arrow,
+.showcase__body:focus-visible .showcase__arrow{ transform:translateX(5px); }
 
 /* Scroll-reveal — progressive enhancement only. Without JS, .js-ready is never
    added, so every showcase stays fully visible by default. */
@@ -548,6 +647,14 @@ html{
   opacity:1;
   transform:translateY(0);
 }
+.js-ready .showcase__media{
+  clip-path:inset(0 0 100% 0);
+  transition:clip-path .9s cubic-bezier(.16,1,.3,1);
+}
+.js-ready .showcase.is-visible .showcase__media{
+  clip-path:inset(0 0 0% 0);
+}
+.showcase__media{ will-change:transform; }
 
 .site a:focus-visible, .site *:focus-visible{
   outline:3px solid var(--color-ink);
@@ -555,8 +662,7 @@ html{
 }
 
 @media (prefers-reduced-motion: reduce){
-  .site *{ animation:none !important; transition:none !important; }
-  .js-ready .showcase{ opacity:1 !important; transform:none !important; }
+  .site *{ animation:none !important; }
 }
 
 .skip-link{
@@ -635,6 +741,7 @@ h1, h2, h3{ text-wrap:balance; }
 </style>
 </head>
 <body>
+<div class="cursor-reticle" id="cursor-reticle" aria-hidden="true"></div>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site">
 
@@ -668,53 +775,53 @@ h1, h2, h3{ text-wrap:balance; }
 
   <div class="showcases">
 
-    <a class="showcase" href="legacy/goldbach-kmu.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame" aria-busy="true">
-          <img class="media-image" src="assets/sketches/home-goldbach.svg" alt="Goldbach KMU Website preview" loading="lazy">
+          <img class="media-image" src="assets/homepage/goldbach-teaser.webp" alt="Goldbach KMU Website shown on a laptop mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="legacy/goldbach-kmu.html">
         <span class="showcase__number">01</span>
         <span class="showcase__eyebrow">Goldbach</span>
         <h2 class="showcase__title">Goldbach KMU Website</h2>
         <p class="showcase__summary">A redesign of Goldbach's 24-page KMU website section, combined with separate UX feedback work on their B2B booking platform.</p>
-        <p class="showcase__meta"><strong>Role</strong> Multimedia Designer &nbsp;·&nbsp; <strong>Scope</strong> 24-page section</p>
+        <p class="showcase__meta"><strong>Role</strong> CX/UX Designer &nbsp;·&nbsp; <strong>Scope</strong> 24-page section</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <a class="showcase" href="legacy/dentist-finder.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame">
-          <img class="media-image" src="assets/homepage/dentist-finder.png" alt="Dentist Finder app preview on a phone mockup" loading="lazy" style="object-fit:cover">
+          <img class="media-image" src="assets/homepage/dentist-finder-teaser.webp" alt="Dentist Finder app preview on a phone mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="legacy/dentist-finder.html">
         <span class="showcase__number">02</span>
         <span class="showcase__eyebrow">Self-initiated</span>
         <h2 class="showcase__title">Dentist Finder</h2>
         <p class="showcase__summary">A self-initiated product exploring a clearer way to search for and compare dental practices, with its own design system.</p>
         <p class="showcase__meta"><strong>Role</strong> Product &amp; UX/UI Designer &nbsp;·&nbsp; <strong>Status</strong> Functional online version</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
-    <a class="showcase" href="legacy/hertz-minilease.html">
+    <div class="showcase">
       <div class="showcase__media">
         <div class="media-frame">
-          <img class="media-image" src="assets/homepage/hertz-minilease.png" alt="Hertz MiniLease interface on a laptop mockup" loading="lazy" style="object-fit:cover">
+          <img class="media-image" src="assets/homepage/hertz-teaser.webp" alt="Hertz MiniLease interface on a laptop mockup" width="3000" height="2250" style="width:100%; height:100%; object-fit:contain; object-position:center">
         </div>
       </div>
-      <div class="showcase__body">
+      <a class="showcase__body" href="legacy/hertz-minilease.html">
         <span class="showcase__number">03</span>
         <span class="showcase__eyebrow">Hertz Switzerland</span>
         <h2 class="showcase__title">Hertz MiniLease</h2>
         <p class="showcase__summary">A vehicle subscription platform for Swiss private and business customers, from browsing to a structured sales inquiry.</p>
         <p class="showcase__meta"><strong>Role</strong> UX/UI Designer</p>
         <span class="showcase__link">View case study <span class="showcase__arrow" aria-hidden="true">&rarr;</span></span>
-      </div>
-    </a>
+      </a>
+    </div>
 
 
   </div>
@@ -774,9 +881,7 @@ h1, h2, h3{ text-wrap:balance; }
 
   var showcases = document.querySelectorAll('.showcase');
 
-  if(reduceMotion){
-    showcases.forEach(function(el){ el.classList.add('is-visible'); });
-  } else if('IntersectionObserver' in window){
+  if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
       entries.forEach(function(entry){
         if(entry.isIntersecting){
@@ -790,7 +895,97 @@ h1, h2, h3{ text-wrap:balance; }
     showcases.forEach(function(el){ el.classList.add('is-visible'); });
   }
 
+  document.querySelectorAll('.showcase .media-image').forEach(function(img){
+    var reveal = function(){ img.classList.add('is-loaded'); };
+    if(img.complete){
+      reveal();
+    } else {
+      img.addEventListener('load', reveal);
+      img.addEventListener('error', reveal);
+    }
+  });
+
+  var showcaseImages = [];
+  showcases.forEach(function(card){
+    var media = card.querySelector('.showcase__media');
+    var body = card.querySelector('.showcase__body');
+    if(media) showcaseImages.push({media:media, body:body});
+  });
+  if(showcaseImages.length){
+    var showcaseTicking = false;
+    var updateShowcaseParallax = function(){
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      showcaseImages.forEach(function(item){
+        var r = item.media.getBoundingClientRect();
+        var center = r.top + r.height / 2;
+        var offset = (center - vh / 2) / vh;
+        var mediaShift = Math.max(-70, Math.min(70, offset * -70));
+        item.media.style.setProperty('--parallax-y', mediaShift.toFixed(1) + 'px');
+        if(item.body){
+          var bodyShift = Math.max(-32, Math.min(32, offset * 32));
+          item.body.style.setProperty('--parallax-y', bodyShift.toFixed(1) + 'px');
+        }
+      });
+      showcaseTicking = false;
+    };
+    window.addEventListener('scroll', function(){
+      if(!showcaseTicking){
+        window.requestAnimationFrame(updateShowcaseParallax);
+        showcaseTicking = true;
+      }
+    }, {passive:true});
+    updateShowcaseParallax();
+  }
+
+  var fixShowcaseOverlap = function(){
+    showcases.forEach(function(card, i){
+      var media = card.querySelector('.showcase__media');
+      var body = card.querySelector('.showcase__body');
+      if(!media || !body) return;
+      body.style.setProperty('--overlap-mag', '0px');
+      var mr = media.getBoundingClientRect();
+      var br = body.getBoundingClientRect();
+      var isOdd = (i % 2 === 0);
+      var desiredOverlap = 28;
+      var gap = isOdd ? (br.left - mr.right) : (mr.left - br.right);
+      var mag = Math.max(0, gap + desiredOverlap);
+      body.style.setProperty('--overlap-mag', mag.toFixed(1) + 'px');
+    });
+  };
+  fixShowcaseOverlap();
+  window.addEventListener('load', fixShowcaseOverlap);
+  var showcaseOverlapResizeTimer;
+  window.addEventListener('resize', function(){
+    window.clearTimeout(showcaseOverlapResizeTimer);
+    showcaseOverlapResizeTimer = window.setTimeout(fixShowcaseOverlap, 150);
+  });
+
   var canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  var reticle = document.getElementById('cursor-reticle');
+  if(reticle && canHover){
+    var reticleX = 0, reticleY = 0, reticleTicking = false;
+    var moveReticle = function(){
+      reticle.style.left = reticleX + 'px';
+      reticle.style.top = reticleY + 'px';
+      reticleTicking = false;
+    };
+    document.addEventListener('mousemove', function(e){
+      reticleX = e.clientX;
+      reticleY = e.clientY;
+      if(!reticleTicking){
+        window.requestAnimationFrame(moveReticle);
+        reticleTicking = true;
+      }
+    }, {passive:true});
+    document.querySelectorAll('.showcase__body').forEach(function(cardBody){
+      cardBody.addEventListener('mouseenter', function(){ reticle.classList.add('is-visible'); });
+      cardBody.addEventListener('mouseleave', function(){ reticle.classList.remove('is-visible', 'is-active'); });
+      cardBody.addEventListener('mousedown', function(){ reticle.classList.add('is-active'); });
+      cardBody.addEventListener('mouseup', function(){ reticle.classList.remove('is-active'); });
+    });
+  }
+
   var hero = document.querySelector('.hero-home');
   var eyebrowEl = document.querySelector('.hero-home__eyebrow');
   var titleEl = document.querySelector('.hero-home__title');

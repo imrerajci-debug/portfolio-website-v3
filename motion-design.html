@@ -10,10 +10,15 @@
 <meta property="og:description" content="Motion design work by Imre Rajci — animation, transitions and interface micro-interactions. Coming soon.">
 <meta property="og:type" content="website">
 <meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%2391D2C0'/%3E%3Ctext x='50' y='69' font-family='Arial, sans-serif' font-weight='700' font-size='58' text-anchor='middle' fill='%235C4432'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 663.11 670.22'%3E%3Crect width='663.11' height='670.22' fill='%23ffffff'/%3E%3Cpath d='M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z' fill='%23000000'/%3E%3Ccircle cx='115.98' cy='139.73' r='101.54' fill='%23000000'/%3E%3C/svg%3E">
 <title>Motion Design | Imre Rajci</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+@property --parallax-y{
+  syntax:'<length>';
+  inherits:false;
+  initial-value:0px;
+}
 
 /* QUICK DESIGN EDITS: CHANGE THESE VARIABLES ONLY */
 html{
@@ -244,8 +249,8 @@ html{
 .site-header__logo{
   display:flex;
   align-items:center;
-  width:44px;
-  height:44px;
+  width:55px;
+  height:55px;
   color:var(--color-ink-fixed);
   flex-shrink:0;
 }
@@ -258,7 +263,7 @@ html{
 .site-nav__link{
   position:relative;
   font-family:var(--font-display);
-  font-size:0.85rem;
+  font-size:1.0625rem;
   font-weight:500;
   letter-spacing:0.06em;
   text-transform:uppercase;
@@ -376,7 +381,7 @@ html{
 @media (max-width:480px){
   .site-header__inner{ padding:var(--space-sm); }
   .site-nav{ gap:var(--space-sm) var(--space-md); }
-  .site-nav__link{ font-size:0.76rem; }
+  .site-nav__link{ font-size:0.95rem; }
 }
 
 /* Brush highlight */
@@ -424,15 +429,16 @@ html{
 .hero__title{
   font-family:var(--font-display);
   font-weight:700;
-  font-size:clamp(2.1rem, 1.5rem + 3vw, 3.4rem);
-  line-height:1.08;
+  font-size:clamp(2.6rem, 1.8rem + 4.5vw, 5rem);
+  line-height:1.02;
   margin-bottom:var(--space-md);
   will-change:transform;
   position:relative;
   z-index:1;
 }
 .hero__summary{
-  font-size:clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+  font-size:clamp(1.05rem, 1rem + 0.5vw, 1.35rem);
+  max-width:var(--reading-width);
   color:rgba(var(--ink-rgb),0.85);
   margin-bottom:var(--space-lg);
   will-change:transform;
@@ -480,6 +486,59 @@ html{
   border:var(--border-width) solid var(--border-color);
   border-radius:var(--radius-sm);
   overflow:hidden;
+}
+.hero-video{
+  position:relative;
+  width:calc(100% + 2 * var(--page-gutter));
+  margin-inline:calc(-1 * var(--page-gutter));
+  margin-top:var(--space-lg);
+  aspect-ratio:16 / 9;
+  border:var(--border-width) solid var(--border-color);
+  border-radius:var(--radius-sm);
+  overflow:hidden;
+  background:var(--color-surface);
+  --parallax-y:0px;
+  transform:translateY(var(--parallax-y, 0px));
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+  will-change:transform;
+}
+.hero-video__media{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+.hero-video__media.is-loaded{ opacity:1; }
+.hero-video__play{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,0.05);
+  border:none;
+  cursor:pointer;
+  padding:0;
+}
+.hero-video__play svg{
+  width:80px;
+  height:80px;
+  filter:drop-shadow(0 6px 16px rgba(0,0,0,0.35));
+  transition:transform .25s cubic-bezier(.16,1,.3,1);
+}
+.hero-video__play:hover svg,
+.hero-video__play:focus-visible svg{
+  transform:scale(1.08);
+}
+.hero-video__play:focus-visible{ outline:3px solid var(--color-ink); outline-offset:-3px; }
+.hero-video.is-playing .hero-video__play{ display:none; }
+@media (max-width:700px){
+  .hero-video{
+    width:calc(100% + 2 * var(--space-sm));
+    margin-inline:calc(-1 * var(--space-sm));
+  }
 }
 .media-sketch{
   width:100%;
@@ -702,7 +761,7 @@ video.media-image{ object-fit:cover; }
   border-top:var(--border-width) solid var(--border-color);
   counter-increment:casesection;
 }
-.section--first{ border-top:none; padding-top:var(--space-lg); }
+.section--first{ padding-top:var(--space-lg); }
 /* #44 Sustained attention lasts about 10 minutes — alternating tint gives a subtle
    visual reset every other section, so a long page keeps re-earning attention. */
 .section:nth-of-type(even){ background:var(--color-surface); }
@@ -870,10 +929,6 @@ video.media-image{ object-fit:cover; }
   outline-offset:2px;
 }
 
-@media (prefers-reduced-motion: reduce){
-  .case-study *{ animation:none !important; transition:none !important; }
-  .case-study .hero__meta-item{ opacity:1 !important; transform:none !important; }
-}
 
 @media (min-width:1200px){
   .case-study__inner{ padding-top:var(--space-2xl); }
@@ -977,11 +1032,20 @@ h1, h2, h3{ text-wrap:balance; }
       <div class="hero__meta-item"><dt>Format</dt><dd>Client work reel</dd></div>
     </dl>
 
-    <div class="media-frame">
-      <video class="media-image" controls preload="metadata">
+    <div class="hero-video">
+      <video class="hero-video__media" preload="metadata" poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Crect width='1600' height='900' fill='%23FFFFFF'/%3E%3Csvg x='710' y='359' width='180' height='182' viewBox='0 0 663.11 670.22'%3E%3Cpath d='M646.99,612.25l-137.85-169.15c-11.16-13.69-6.74-32.96,9.46-41.72,28.8-15.56,52.56-33.92,71.27-55.06,25.09-28.35,37.64-61.14,37.64-98.38,0-65.3-35.04-116.43-105.14-153.37-60.61-31.95-141.65-50.04-243.02-54.36-3.18-.14-5.93,2.43-5.93,5.62v589.52c0,3.09,2.51,5.59,5.6,5.57l74.61-.41c.89.02,1.67.11,2.58.11h266.09c7.79,0,14.48-1.85,20.12-5.59,5.62-3.72,8.44-8.16,8.44-13.32,0-2.86-1.3-6.01-3.89-9.45Z' fill='%235C4432'/%3E%3Ccircle cx='115.98' cy='139.73' r='101.54' fill='%235C4432'/%3E%3C/svg%3E%3C/svg%3E">
         <source src="assets/showreel.mp4" type="video/mp4">
         Your browser doesn't support embedded video. <a href="assets/showreel.mp4">Download the reel</a>.
       </video>
+      <button class="hero-video__play" type="button" aria-label="Play showreel">
+        <svg viewBox="0 0 100 100">
+          <mask id="hero-play-mask">
+            <circle cx="50" cy="50" r="50" fill="#fff"/>
+            <polygon points="41,31 41,69 74,50" fill="#000"/>
+          </mask>
+          <circle cx="50" cy="50" r="50" fill="#fff" mask="url(#hero-play-mask)"/>
+        </svg>
+      </button>
     </div>
   </header>
 
@@ -1082,6 +1146,44 @@ h1, h2, h3{ text-wrap:balance; }
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js-ready');
 
+  var heroVideoWrap = document.querySelector('.hero-video');
+  if(heroVideoWrap){
+    var heroVideo = heroVideoWrap.querySelector('.hero-video__media');
+    var heroPlayBtn = heroVideoWrap.querySelector('.hero-video__play');
+    var revealHeroVideo = function(){ heroVideo.classList.add('is-loaded'); };
+    if(heroVideo.readyState >= 2){
+      revealHeroVideo();
+    } else {
+      heroVideo.addEventListener('loadeddata', revealHeroVideo);
+      heroVideo.addEventListener('error', revealHeroVideo);
+      window.setTimeout(revealHeroVideo, 2500);
+    }
+    if(heroPlayBtn){
+      heroPlayBtn.addEventListener('click', function(){
+        heroVideoWrap.classList.add('is-playing');
+        heroVideo.setAttribute('controls', '');
+        heroVideo.play();
+      });
+    }
+    var heroVideoTicking = false;
+    var updateHeroVideoParallax = function(){
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var r = heroVideoWrap.getBoundingClientRect();
+      var center = r.top + r.height / 2;
+      var offset = (center - vh / 2) / vh;
+      var shift = Math.max(-40, Math.min(40, offset * 40));
+      heroVideoWrap.style.setProperty('--parallax-y', shift.toFixed(1) + 'px');
+      heroVideoTicking = false;
+    };
+    window.addEventListener('scroll', function(){
+      if(!heroVideoTicking){
+        window.requestAnimationFrame(updateHeroVideoParallax);
+        heroVideoTicking = true;
+      }
+    }, {passive:true});
+    updateHeroVideoParallax();
+  }
+
   var siteHeader = document.querySelector('.site-header');
   if(siteHeader){
     var setHeaderHeight = function(){
@@ -1181,11 +1283,6 @@ h1, h2, h3{ text-wrap:balance; }
   }
 
   var sections = document.querySelectorAll('.case-study .section');
-
-  if(reduceMotion){
-    sections.forEach(function(el){ el.classList.add('is-visible'); });
-    return;
-  }
 
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){
