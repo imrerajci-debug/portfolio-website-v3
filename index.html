@@ -1261,7 +1261,6 @@ h1, h2, h3{ text-wrap:balance; }
   .brand-strip{ animation:none; }
 }
 </style>
-<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="cursor-reticle" id="cursor-reticle" aria-hidden="true"></div>
@@ -1475,7 +1474,6 @@ h1, h2, h3{ text-wrap:balance; }
             <label for="cf-company">Company</label>
             <input type="text" id="cf-company" name="company" tabindex="-1" autocomplete="off">
           </div>
-          <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY" data-appearance="interaction-only"></div>
           <button type="submit" class="connect__submit">
             <span class="connect__submit-text">Send message</span>
             <span class="connect__submit-arrow" aria-hidden="true">&#8599;</span>
@@ -1594,6 +1592,7 @@ h1, h2, h3{ text-wrap:balance; }
     var submitBtn = contactForm.querySelector('.connect__submit');
     var submitText = contactForm.querySelector('.connect__submit-text');
     var isSubmitting = false;
+    var CONTACT_EMAIL = 'imrerajci@gmail.com';
 
     var showFeedback = function(type, msg){
       feedbackEl.textContent = msg;
@@ -1647,41 +1646,28 @@ h1, h2, h3{ text-wrap:balance; }
         return;
       }
 
-      var turnstileToken = (window.turnstile && typeof window.turnstile.getResponse === 'function')
-        ? window.turnstile.getResponse() : '';
-      if(!turnstileToken){
-        showFeedback('error', 'Please complete the verification and try again.');
-        return;
-      }
+      if(company){ return; } // honeypot tripped — silently ignore
 
       isSubmitting = true;
       submitBtn.disabled = true;
-      submitText.textContent = 'Sending…';
+      submitText.textContent = 'Opening email…';
 
-      fetch('/api/contact', {
-        method:'POST',
-        headers:{ 'Content-Type':'application/json' },
-        body: JSON.stringify({ name:name, email:email, message:message, company:company, turnstileToken:turnstileToken })
-      }).then(function(res){
-        return res.json().catch(function(){ return {}; }).then(function(data){ return { ok: res.ok, data: data }; });
-      }).then(function(result){
+      var subject = 'Portfolio contact from ' + name;
+      var body = message + '\n\n—\n' + name + '\n' + email;
+      var mailtoUrl = 'mailto:' + encodeURIComponent(CONTACT_EMAIL)
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(body);
+
+      window.location.href = mailtoUrl;
+
+      showFeedback('success', "Your email client should now be open with the message ready to send. Prefer not to? Reach me on LinkedIn instead.");
+      contactForm.reset();
+
+      window.setTimeout(function(){
         isSubmitting = false;
         submitBtn.disabled = false;
         submitText.textContent = 'Send message';
-        if(result.ok && result.data && result.data.ok){
-          showFeedback('success', "Thanks — your message is on its way. I'll get back to you soon.");
-          contactForm.reset();
-        } else {
-          showFeedback('error', 'Something went wrong. Please try again in a moment or connect with me on LinkedIn.');
-        }
-        if(window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
-      }).catch(function(){
-        isSubmitting = false;
-        submitBtn.disabled = false;
-        submitText.textContent = 'Send message';
-        showFeedback('error', 'Something went wrong. Please try again in a moment or connect with me on LinkedIn.');
-        if(window.turnstile && typeof window.turnstile.reset === 'function') window.turnstile.reset();
-      });
+      }, 1500);
     });
   }
 
